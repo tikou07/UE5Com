@@ -1,0 +1,22 @@
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.db-shm
+*.VC.db-wal
+
+# Unreal Engine
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Build files
+*.pch
+*.obj
+*.pdb
+*.lib
+*.dll
+*.exp
+
+# Other
+*.log

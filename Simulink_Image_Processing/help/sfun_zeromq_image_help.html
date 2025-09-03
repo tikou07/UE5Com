@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>S-Function Block: ZeroMQ Image Receiver</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>S-Function Block: ZeroMQ Image Receiver</h1>
+    
+    <h2>概要</h2>
+    <p>
+        このブロックは、ZeroMQ (SUBソケット) を介して画像データを受信するためのSimulink S-Functionです。
+        Pythonなどの外部アプリケーションから送信された画像をリアルタイムでSimulinkモデルに取り込むために使用します。
+        C++で実装されたバージョン (<code>sfun_zeromq_image</code>) と MATLABスクリプトで実装されたバージョン (<code>sfun_zeromq_image_m</code>) があり、どちらも同じ機能を提供します。
+    </p>
+
+    <h2>出力ポート</h2>
+    <ul>
+        <li><strong>Out1 (uint8):</strong> 受信した画像データ。<code>[Height x Width x Channels]</code> の画像が1次元の列ベクトル (<code>[H*W*C, 1]</code>) に変換されて出力されます。データはC言語スタイルの行優先順 (R1,G1,B1, R2,G2,B2, ...) です。</li>
+    </ul>
+
+    <h2>パラメータ</h2>
+    <table>
+        <tr>
+            <th>パラメータ</th>
+            <th>説明</th>
+            <th>例</th>
+        </tr>
+        <tr>
+            <td><strong>Address</strong></td>
+            <td>接続またはバインドするZeroMQソケットのアドレス。</td>
+            <td><code>tcp://127.0.0.1:5555</code></td>
+        </tr>
+        <tr>
+            <td><strong>Camera ID (Subscription Topic)</strong></td>
+            <td>購読するトピック名。通常はカメラIDなどを指定します。空にすると全てのメッセージを購読します。</td>
+            <td><code>Camera01</code></td>
+        </tr>
+        <tr>
+            <td><strong>Image Height</strong></td>
+            <td>受信する画像の高さ (ピクセル)。</td>
+            <td><code>1080</code></td>
+        </tr>
+        <tr>
+            <td><strong>Image Width</strong></td>
+            <td>受信する画像の幅 (ピクセル)。</td>
+            <td><code>1920</code></td>
+        </tr>
+        <tr>
+            <td><strong>Channels</strong></td>
+            <td>画像のチャンネル数。<code>1 (Grayscale)</code> または <code>3 (RGB)</code> を選択します。</td>
+            <td><code>3 (RGB)</code></td>
+        </tr>
+        <tr>
+            <td><strong>Timeout (ms)</strong></td>
+            <td>メッセージの受信タイムアウト時間 (ミリ秒)。<code>0</code> はブロッキングモード (無制限に待機) を意味します。</td>
+            <td><code>1000</code></td>
+        </tr>
+        <tr>
+            <td><strong>Sample time</strong></td>
+            <td>ブロックのサンプル時間 (秒)。<code>-1</code> は親サブシステムから継承します。</td>
+            <td><code>0.033</code></td>
+        </tr>
+        <tr>
+            <td><strong>Bind/Connect Mode</strong></td>
+            <td><code>Bind</code> (Listen) または <code>Connect</code> を選択します。通常、画像送信側 (PUB) がBindし、受信側 (SUB) はConnectします。</td>
+            <td><code>Connect</code></td>
+        </tr>
+        <tr>
+            <td><strong>Enable Logging</strong></td>
+            <td>有効にすると、MATLABコンソールにデバッグ用のログメッセージを出力します。</td>
+            <td><code>on</code></td>
+        </tr>
+    </table>
+
+    <h2>使用方法</h2>
+    <p>
+        このブロックをSimulinkモデルに配置し、パラメータを設定します。画像送信側のアプリケーション (Pythonなど) が同じアドレスとトピックで画像を送信すると、このブロックの出力ポートから画像データがベクトルとして出力されます。
+        出力されたベクトルは <code>sfun_display_image</code> ブロックなどを使用して可視化できます。
+    </p>
+</body>
+</html>

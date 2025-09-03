@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>S-Function Block: Image Feature Extraction</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>S-Function Block: Image Feature Extraction</h1>
+    
+    <h2>概要</h2>
+    <p>
+        このブロックは、入力画像から特徴抽出を行うためのMATLAB S-Functionです。
+        処理モードに応じて、コーナー検出または二値化と重心計算を実行します。
+        入力画像と同じ形式で、処理結果（特徴点が描画された画像）を出力します。
+    </p>
+
+    <h2>入力ポート</h2>
+    <ul>
+        <li><strong>In1 (uint8):</strong> 処理対象の画像データ。<code>[H*W*C, 1]</code> の1次元ベクトル形式。</li>
+    </ul>
+
+    <h2>出力ポート</h2>
+    <ul>
+        <li><strong>Out1 (uint8):</strong> 処理後の画像データ。特徴点や重心が描画されています。入力と同じベクトル形式で出力されます。</li>
+        <li><strong>Out2 (double):</strong> 検出された特徴データ。処理モードによって内容が変わります。
+            <ul>
+                <li><strong>Corner Detection:</strong> <code>[x, y, response]</code> の形式で、検出されたコーナー点の座標と強度が出力されます。</li>
+                <li><strong>Binarization & Centroids:</strong> <code>[x, y]</code> の形式で、検出されたブロブの重心座標が出力されます。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>パラメータ</h2>
+    <table>
+        <tr>
+            <th>パラメータ</th>
+            <th>説明</th>
+        </tr>
+        <tr>
+            <td><strong>Processing Mode</strong></td>
+            <td>実行する画像処理のモードを選択します (<code>Corner Detection</code> または <code>Binarization & Centroids</code>)。</td>
+        </tr>
+        <tr>
+            <td><strong>Image Height / Width / Channels</strong></td>
+            <td>入力画像の次元を指定します。</td>
+        </tr>
+        <tr>
+            <td><strong>Max Features / Centroids</strong></td>
+            <td>検出する特徴点または重心の最大数。</td>
+        </tr>
+        <tr>
+            <td><strong>Threshold (for Binarization)</strong></td>
+            <td>二値化処理で使用するしきい値 (0-255)。</td>
+        </tr>
+        <tr>
+            <td><strong>Sample time</strong></td>
+            <td>ブロックのサンプル時間 (秒)。</td>
+        </tr>
+        <tr>
+            <td><strong>Enable Logging</strong></td>
+            <td>有効にすると、MATLABコンソールにデバッグ用のログメッセージを出力します。</td>
+        </tr>
+    </table>
+</body>
+</html>

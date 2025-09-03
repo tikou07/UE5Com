@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>S-Function Block: ZeroMQ Control Sender</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>S-Function Block: ZeroMQ Control Sender</h1>
+    
+    <h2>概要</h2>
+    <p>
+        このブロックは、ZeroMQ (PUBソケット) を介して制御信号を送信するためのSimulink S-Functionです。
+        Simulinkモデルからの入力信号をJSON形式のメッセージに変換し、外部のアプリケーション（Python、UE5など）にリアルタイムで送信します。
+        C++で実装されたバージョン (<code>sfun_zeromq_control</code>) と MATLABスクリプトで実装されたバージョン (<code>sfun_zeromq_control_m</code>) があり、どちらも同じ機能を提供します。
+    </p>
+
+    <h2>入力ポート</h2>
+    <p>ブロックは6つの入力ポートを持ち、それぞれがdouble型のスカラー値を受け付けます。</p>
+    <ul>
+        <li><strong>In1 (x):</strong> X座標</li>
+        <li><strong>In2 (y):</strong> Y座標</li>
+        <li><strong>In3 (z):</strong> Z座標</li>
+        <li><strong>In4 (roll):</strong> ロール角</li>
+        <li><strong>In5 (pitch):</strong> ピッチ角</li>
+        <li><strong>In6 (yaw):</strong> ヨー角</li>
+    </ul>
+
+    <h2>パラメータ</h2>
+    <table>
+        <tr>
+            <th>パラメータ</th>
+            <th>説明</th>
+            <th>例</th>
+        </tr>
+        <tr>
+            <td><strong>Address</strong></td>
+            <td>接続またはバインドするZeroMQソケットのアドレス。</td>
+            <td><code>tcp://*:5556</code></td>
+        </tr>
+        <tr>
+            <td><strong>Topic</strong></td>
+            <td>送信するメッセージのトピック名。受信側はこれでメッセージをフィルタリングできます。</td>
+            <td><code>SimulinkControl</code></td>
+        </tr>
+        <tr>
+            <td><strong>Number of Inputs</strong></td>
+            <td>入力ポートの幅（入力信号の数）。</td>
+            <td><code>3</code></td>
+        </tr>
+        <tr>
+            <td><strong>Sample time</strong></td>
+            <td>ブロックのサンプル時間 (秒)。<code>-1</code> は親サブシステムから継承します。</td>
+            <td><code>0.01</code></td>
+        </tr>
+        <tr>
+            <td><strong>Bind/Connect Mode</strong></td>
+            <td><code>Bind</code> (Listen) または <code>Connect</code> を選択します。通常、送信側 (PUB) がBindし、受信側 (SUB) はConnectします。</td>
+            <td><code>Bind</code></td>
+        </tr>
+        <tr>
+            <td><strong>Enable Logging</strong></td>
+            <td>有効にすると、MATLABコンソールにデバッグ用のログメッセージを出力します。</td>
+            <td><code>off</code></td>
+        </tr>
+    </table>
+
+    <h2>使用方法</h2>
+    <p>
+        このブロックをSimulinkモデルに配置し、パラメータを設定します。入力ポートに制御したい信号を接続すると、その信号が指定されたトピックを持つJSONメッセージとしてZeroMQ経由で送信されます。
+    </p>
+    <p><strong>JSON出力形式の例:</strong></p>
+    <pre><code>{"transform":{"x":v1, "y":v2, "z":v3, "roll":v4, "pitch":v5, "yaw":v6}}</code></pre>
+</body>
+</html>

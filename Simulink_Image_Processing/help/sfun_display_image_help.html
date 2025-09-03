@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>S-Function Block: Image Display</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>S-Function Block: Image Display</h1>
+    
+    <h2>概要</h2>
+    <p>
+        このブロックは、Simulinkモデル内で画像データをリアルタイムに表示するためのS-Functionです。
+        <code>sfun_zeromq_image</code> などのブロックから出力される1次元の画像データベクトルを入力として受け取り、MATLABのFigureウィンドウに画像として表示します。
+        主にデバッグや可視化の目的で使用します。
+    </p>
+
+    <h2>入力ポート</h2>
+    <ul>
+        <li><strong>In1 (uint8):</strong> 表示する画像データ。<code>[Height x Width x Channels]</code> の画像が1次元の列ベクトル (<code>[H*W*C, 1]</code>) に変換されたものを入力します。データはC言語スタイルの行優先順 (R1,G1,B1, R2,G2,B2, ...) である必要があります。</li>
+    </ul>
+
+    <h2>パラメータ</h2>
+    <table>
+        <tr>
+            <th>パラメータ</th>
+            <th>説明</th>
+            <th>例</th>
+        </tr>
+        <tr>
+            <td><strong>Image Height</strong></td>
+            <td>表示する画像の高さ (ピクセル)。入力ベクトルの次元と一致している必要があります。</td>
+            <td><code>1080</code></td>
+        </tr>
+        <tr>
+            <td><strong>Image Width</strong></td>
+            <td>表示する画像の幅 (ピクセル)。入力ベクトルの次元と一致している必要があります。</td>
+            <td><code>1920</code></td>
+        </tr>
+        <tr>
+            <td><strong>Channels</strong></td>
+            <td>画像のチャンネル数。<code>1 (Grayscale)</code> または <code>3 (RGB)</code> を選択します。</td>
+            <td><code>3 (RGB)</code></td>
+        </tr>
+        <tr>
+            <td><strong>Sample time</strong></td>
+            <td>ブロックのサンプル時間 (秒)。<code>-1</code> は親サブシステムから継承します。</td>
+            <td><code>0.033</code></td>
+        </tr>
+        <tr>
+            <td><strong>Figure Title</strong></td>
+            <td>表示用Figureウィンドウのタイトル。</td>
+            <td><code>Live Image Feed</code></td>
+        </tr>
+        <tr>
+            <td><strong>Decimation</strong></td>
+            <td>表示を間引くための係数。<code>N</code> を指定すると、N回の呼び出しごとに1回だけ表示を更新します。パフォーマンスへの影響を軽減するために使用します。</td>
+            <td><code>1</code></td>
+        </tr>
+    </table>
+
+    <h2>注意点</h2>
+    <p>
+        GUIの更新はSimulinkのシミュレーション速度に影響を与える可能性があります。パフォーマンスが問題になる場合は、ブロックのサンプル時間やDecimationパラメータを調整して、更新頻度を下げてください。
+    </p>
+</body>
+</html>
