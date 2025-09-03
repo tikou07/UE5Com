@@ -5,8 +5,8 @@ function build_mex_files()
 clear mex;
 
 % --- Configuration ---
-ZMQ_INC_DIR = fullfile('..', 'Simulink_Image_Processing', 'ThirdParty', 'include');
-ZMQ_LIB_DIR = fullfile('..', 'Simulink_Image_Processing', 'ThirdParty', 'lib', 'Win64');
+ZMQ_INC_DIR = fullfile('ThirdParty', 'include');
+ZMQ_LIB_DIR = fullfile('ThirdParty', 'lib', 'Win64');
 ZMQ_LIB_NAME = 'libzmq-v143-mt-s-4_3_5'; % Static library name
 
 % --- Source File ---

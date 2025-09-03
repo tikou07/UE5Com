@@ -16,22 +16,51 @@ ZeroMQ（ØMQ）は、高性能な非同期メッセージングライブラリ�
 - **可視化**:
   - `Utils.ImageDisplayer`: MATLABのFigureウィンドウにリアルタイムで画像を表示するユーティリティクラスです。
 
-## セットアップ
+## セットアップ手順
 
-1.  **MEXファイルのコンパイル**:
-    `build_mex_files` を実行して、ZeroMQ通信用のC++ MEX関数をコンパイルします。
+### 1. 前提条件
+- MATLAB R2023a 以降
+- サポートされているC++コンパイラ (MinGW64 または Visual Studio 2019 以降)
+  - MATLABで `mex -setup C++` を実行して設定を確認してください。
+
+### 2. Python環境のセットアップ (初回のみ)
+このプロジェクトには、画像処理機能で使用するPythonの実行環境が含まれています。必要なライブラリをインストールするために、以下のスクリプトを実行します。
+
+1.  **PowerShellを管理者として実行**
+    - Windowsのスタートメニューで「PowerShell」と検索し、「Windows PowerShell」を右クリックして **「管理者として実行」** を選択します。
+
+2.  **セットアップスクリプトの実行**
+    - PowerShellで、この `MATLAB_Image_Processing` ディレクトリに移動します。
+      ```powershell
+      cd "D:\path\to\your\project\MATLAB_Image_Processing" 
+      ```
+      (※ `D:\path\to\your\project` の部分は実際のパスに置き換えてください)
+    - 次に、以下のコマンドを実行してセットアップスクリプトを開始します。
+      ```powershell
+      .\setup_environment.ps1
+      ```
+    - このスクリプトは、Visual C++ 再頒布可能パッケージのインストール（必要に応じて）と、`python_runtime` ディレクトリへのPythonライブラリ (pyzmq, numpy, opencv-python) のインストールを自動的に行います。
+
+### 3. MATLAB環境の設定
+MATLABを起動し、`MATLAB_Image_Processing` ディレクトリをカレントディレクトリに設定してください。
+
+### 4. MEXファイルのビルド (初回のみ)
+ZeroMQ通信を高速化するためのC++ MEX関数をコンパイルします。この手順は、初回セットアップ時またはC++ソースコードに変更があった場合にのみ必要です。
+
+1.  **MATLABのコマンドウィンドウで、以下のコマンドを実行します。**
     ```matlab
     build_mex_files
     ```
+2.  **ビルドの確認**
+    - `mex` ディレクトリ内に `mex_zeromq_handler.mexw64` のようなファイルが生成されていれば成功です。
 
-2.  **ランタイムライブラリのコピー**:
-    `setup_library` を実行して、MEXファイルの実行に必要なZeroMQのDLLをコピーします。
-    ```matlab
-    setup_library
-    ```
+### 5. 動作確認
+`startup` スクリプトを実行してプロジェクトのパスを設定した後、`run_image_processing_test.m` を実行してセットアップが正しく完了したかを確認できます。
+```matlab
+startup
+run_image_processing_test
+```
 
-3.  **Python環境**:
-    `ImageFeatureExtractor` は、`opencv-python` と `numpy` がインストールされたPython環境を必要とします。
 
 ## API詳細
 
