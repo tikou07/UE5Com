@@ -20,3 +20,8 @@ Saved/
 
 # Other
 *.log
+
+# Keep ThirdParty libraries for self-contained build
+!/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.lib
+!/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.dll
+!/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.a

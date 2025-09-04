@@ -76,33 +76,28 @@ public class ZeroMQCommunication : ModuleRules
 			string LibPath = Path.Combine(ZeroMQPath, "lib", "Win64");
 			string ZmqLibFile = Path.Combine(LibPath, "libzmq-v143-mt-s-4_3_5.lib");
 			
-			// Only add library if it exists and is valid
-			if (File.Exists(ZmqLibFile))
+			// Check if the static library exists and is valid
+			if (!File.Exists(ZmqLibFile))
 			{
-				FileInfo libInfo = new FileInfo(ZmqLibFile);
-				if (libInfo.Length > 1000) // Basic check for non-empty file
-				{
-					PublicAdditionalLibraries.Add(ZmqLibFile);
-					PublicDefinitions.Add("ZMQ_LIBRARY_AVAILABLE=1");
-					
-					// Copy DLL to output directory
-					string DllPath = Path.Combine(ZeroMQPath, "bin", "Win64", "libzmq-mt-4_3_5.dll");
-					if (File.Exists(DllPath))
-					{
-						RuntimeDependencies.Add(DllPath);
-					}
-					
-					System.Console.WriteLine("ZeroMQ library found and enabled: " + libInfo.Length + " bytes");
-				}
-				else
-				{
-					System.Console.WriteLine("Warning: ZeroMQ library file appears to be corrupted or empty");
-				}
+				throw new BuildException($"ZeroMQ static library not found at {ZmqLibFile}. Please ensure all required libraries are included in the ThirdParty directory.");
 			}
-			else
+			if (new FileInfo(ZmqLibFile).Length < 1000)
 			{
-				System.Console.WriteLine("Warning: ZeroMQ library file not found - building without ZeroMQ support");
+				throw new BuildException($"ZeroMQ static library appears to be corrupted or empty at {ZmqLibFile}.");
 			}
+			
+			PublicAdditionalLibraries.Add(ZmqLibFile);
+			PublicDefinitions.Add("ZMQ_LIBRARY_AVAILABLE=1");
+			
+			// Check for the DLL and add it to runtime dependencies
+			string DllPath = Path.Combine(ZeroMQPath, "bin", "Win64", "libzmq-mt-4_3_5.dll");
+			if (!File.Exists(DllPath))
+			{
+				throw new BuildException($"ZeroMQ DLL not found at {DllPath}.");
+			}
+			RuntimeDependencies.Add(DllPath);
+			
+			System.Console.WriteLine("ZeroMQ Windows libraries found and enabled.");
 			
 			// Add Windows socket libraries
 			PublicSystemLibraries.AddRange(new string[] {
@@ -114,23 +109,32 @@ public class ZeroMQCommunication : ModuleRules
 		{
 			// Linux-specific settings
 			PublicDefinitions.Add("PLATFORM_LINUX=1");
-			
 			string LibPath = Path.Combine(ZeroMQPath, "lib", "Linux");
-			PublicAdditionalLibraries.Add(Path.Combine(LibPath, "libzmq.a"));
-			
-			// Add Linux system libraries
-			PublicSystemLibraries.AddRange(new string[] {
-				"pthread",
-				"rt"
-			});
+			string ZmqLibFile = Path.Combine(LibPath, "libzmq.a");
+
+			if (!File.Exists(ZmqLibFile))
+			{
+				throw new BuildException($"ZeroMQ Linux library not found at {ZmqLibFile}. Please compile and place the required .a file in this location.");
+			}
+			PublicAdditionalLibraries.Add(ZmqLibFile);
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Mac)
 		{
 			// Mac-specific settings
 			PublicDefinitions.Add("PLATFORM_MAC=1");
-			
 			string LibPath = Path.Combine(ZeroMQPath, "lib", "Mac");
-			PublicAdditionalLibraries.Add(Path.Combine(LibPath, "libzmq.a"));
+			string ZmqLibFile = Path.Combine(LibPath, "libzmq.a");
+			
+			if (!File.Exists(ZmqLibFile))
+			{
+				throw new BuildException($"ZeroMQ Mac library not found at {ZmqLibFile}. Please compile and place the required .a file in this location.");
+			}
+			PublicAdditionalLibraries.Add(ZmqLibFile);
 		}
+		else
+        {
+            // Unsupported platform
+            throw new BuildException($"ZeroMQ plugin does not currently support the target platform: {Target.Platform}");
+        }
 	}
 }

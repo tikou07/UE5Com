@@ -38,6 +38,18 @@ C++プロジェクトの場合、Visual Studioでプロジェクトのソリュ�
 
 UE5エディタを起動し、メニューの `編集` > `プラグイン` を開きます。検索バーに `ZeroMQ` と入力し、`ZeroMQ Communication` プラグインを有効にします。エディタの再起動を求められた場合は、指示に従ってください。
 
+### 4. クロスプラットフォームビルドについて
+
+本プロジェクトは、Windows、Linux、Macでのビルドに対応可能な構造になっています。ビルドに必要なZeroMQライブラリは、`Source/ZeroMQCommunication/ThirdParty/ZeroMQ/` 以下にプラットフォームごとに配置する必要があります。
+
+-   **Windows**: 必要なライブラリ (`.lib`, `.dll`) は同梱済みです。追加の作業は不要です。
+-   **Linux / Mac**: ビルドを行うには、対象プラットフォーム用にコンパイルされたZeroMQのスタティックライブラリ (`libzmq.a`) をご自身で用意し、以下の場所に配置する必要があります。
+
+    -   **Linux**: `Source/ZeroMQCommunication/ThirdParty/ZeroMQ/lib/Linux/libzmq.a`
+    -   **Mac**: `Source/ZeroMQCommunication/ThirdParty/ZeroMQ/lib/Mac/libzmq.a`
+
+ライブラリが配置されていない場合、ビルドは失敗し、必要なファイルのパスを示すエラーメッセージが表示されます。
+
 ## 使用方法
 
 本プラグインの主要な機能は、シーンに配置したアクターの詳細パネルから設定できます。
