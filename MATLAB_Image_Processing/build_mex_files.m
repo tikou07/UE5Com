@@ -7,7 +7,7 @@ clear mex;
 % --- Configuration ---
 ZMQ_INC_DIR = fullfile('ThirdParty', 'include');
 ZMQ_LIB_DIR = fullfile('ThirdParty', 'lib', 'Win64');
-ZMQ_LIB_NAME = 'libzmq-v143-mt-s-4_3_5'; % Static library name
+ZMQ_LIB_NAME = 'zmq-v143-mt-s-4_3_5'; % Static library name
 
 % --- Source File ---
 SRC_FILE = fullfile('c_src', 'mex_zeromq_handler.cpp');

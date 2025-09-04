@@ -41,6 +41,21 @@ ZeroMQ（ØMQ）は、高性能な非同期メッセージングライブラリ�
       ```
     - このスクリプトは、Visual C++ 再頒布可能パッケージのインストール（必要に応じて）と、`python_runtime` ディレクトリへのPythonライブラリ (pyzmq, numpy, opencv-python) のインストールを自動的に行います。
 
+#### PowerShellスクリプトの実行エラー
+
+`setup_environment.ps1` を実行する際に、以下のようなセキュリティエラーが表示される場合があります。
+
+```
+.\setup_environment.ps1 : このシステムではスクリプトの実行が無効になっているため...
+```
+
+これは、PowerShellの実行ポリシーによってスクリプトの実行がブロックされていることが原因です。
+この問題を解決するには、PowerShellで以下のコマンドを実行してください。これにより、一時的に実行ポリシーを回避してスクリプトを実行できます。
+
+```powershell
+PowerShell -ExecutionPolicy Bypass -File .\setup_environment.ps1
+```
+
 ### 3. MATLAB環境の設定
 MATLABを起動し、`MATLAB_Image_Processing` ディレクトリをカレントディレクトリに設定してください。
 
@@ -60,7 +75,6 @@ ZeroMQ通信を高速化するためのC++ MEX関数をコンパイルします�
 startup
 run_image_processing_test
 ```
-
 
 ## API詳細
 

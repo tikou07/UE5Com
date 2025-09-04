@@ -21,7 +21,14 @@ Saved/
 # Other
 *.log
 
+# Python runtime
+**/python_runtime/
+
+# Visual Studio Tools Plugin
+UE5Com/Plugins/VisualStudioTools/
+
 # Keep ThirdParty libraries for self-contained build
 !/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.lib
 !/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.dll
 !/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.a
+!/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/ZeroMQ/bin/
