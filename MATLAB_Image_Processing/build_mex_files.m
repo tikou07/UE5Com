@@ -6,8 +6,10 @@ clear mex;
 
 % --- Configuration ---
 ZMQ_INC_DIR = fullfile('ThirdParty', 'include');
-ZMQ_LIB_DIR = fullfile('ThirdParty', 'lib', 'Win64');
-ZMQ_LIB_NAME = 'zmq-v143-mt-s-4_3_5'; % Static library name
+ZMQ_LIB_DIR_MSVC = fullfile('ThirdParty', 'lib', 'Win64'); % For MSVC (.lib)
+ZMQ_LIB_DIR_MINGW = fullfile('ThirdParty', 'lib', 'Win64-MinGW'); % For MinGW (.a)
+ZMQ_LIB_NAME_MSVC = 'zmq-v143-mt-s-4_3_5'; % Static library name for MSVC
+ZMQ_LIB_NAME_MINGW = 'zmq';    % Library name for MinGW (links against libzmq.a)
 
 % --- Source File ---
 SRC_FILE = fullfile('c_src', 'mex_zeromq_handler.cpp');
@@ -28,16 +30,36 @@ if exist(output_file, 'file')
     delete(output_file);
 end
 
+% Determine which compiler is being used
+compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');
+is_mingw = contains(compiler_cfg.Name, 'MinGW');
+
 % Construct the mex command
-mex_command = { ...
+base_mex_command = { ...
     '-v', ... % Verbose output
-    ['-I' ZMQ_INC_DIR], ...
-    ['-L' ZMQ_LIB_DIR], ...
-    ['-l' ZMQ_LIB_NAME], ...
-    'COMPFLAGS="$COMPFLAGS /MT"', ... % Static linking
-    SRC_FILE, ...
-    '-output', output_file ...
+    ['-I' ZMQ_INC_DIR] ...
 };
+
+% Add compiler-specific flags
+if is_mingw
+    % For MinGW, link against the newly added .a file
+    fprintf('MinGW compiler detected. Linking against libzmq.a.\n');
+    compiler_specific_flags = { ...
+        ['-L' ZMQ_LIB_DIR_MINGW], ...
+        ['-l' ZMQ_LIB_NAME_MINGW] ...
+    };
+else
+    % For MSVC, specify static library path and name
+    fprintf('MSVC compiler detected. Linking against static LIB.\n');
+    compiler_specific_flags = { ...
+        ['-L' ZMQ_LIB_DIR_MSVC], ...
+        ['-l' ZMQ_LIB_NAME_MSVC], ...
+        'COMPFLAGS="$COMPFLAGS /MT"' ...
+    };
+end
+
+% Combine all parts of the command
+mex_command = [base_mex_command, compiler_specific_flags, {SRC_FILE, '-output', output_file}];
 
 % Execute the mex command
 try

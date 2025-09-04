@@ -32,3 +32,8 @@ UE5Com/Plugins/VisualStudioTools/
 !/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.dll
 !/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/**/*.a
 !/UE5Com/Plugins/ZeroMQCommunication/Source/ZeroMQCommunication/ThirdParty/ZeroMQ/bin/
+
+# Also keep libraries for MATLAB project
+!/MATLAB_Image_Processing/ThirdParty/**/*.lib
+!/MATLAB_Image_Processing/ThirdParty/**/*.dll
+!/MATLAB_Image_Processing/ThirdParty/**/*.a

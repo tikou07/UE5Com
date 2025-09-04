@@ -70,7 +70,7 @@ if (-not (Test-Path $pipPath)) {
 $requirementsFile = Join-Path $projectRoot 'requirements.txt'
 if (Test-Path $requirementsFile) {
     Write-Host "Installing Python requirements from $requirementsFile..."
-    & $pipPath install -r $requirementsFile
+    & $pyExe -m pip install -r $requirementsFile
 } else {
     Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
 }
