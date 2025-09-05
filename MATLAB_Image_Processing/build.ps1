@@ -76,23 +76,20 @@ $pythonInstallDir = Join-Path $projectRoot "python_runtime"
 $pyExe = Join-Path $pythonInstallDir "python.exe"
 
 if (-not (Test-Path $pyExe)) {
-    Write-Host "Local Python runtime not found. Downloading and extracting Python..."
-    $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
-    $pythonZip = Join-Path $env:TEMP "python.zip"
+    Write-Host "Local Python runtime not found. Downloading and installing Python..."
+    $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe"
+    $pythonInstaller = Join-Path $env:TEMP "python_installer.exe"
     
-    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonZip -UseBasicParsing
+    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller -UseBasicParsing
     
-    if (-not (Test-Path $pythonInstallDir)) { New-Item -Path $pythonInstallDir -ItemType Directory | Out-Null }
-    Expand-Archive -Path $pythonZip -DestinationPath $pythonInstallDir -Force
+    Write-Host "Installing Python to $pythonInstallDir..."
+    # Quiet install, TargetDir specifies the installation location.
+    # See: https://docs.python.org/3/using/windows.html#installing-without-a-ui
+    $installArgs = "/quiet InstallAllUsers=0 TargetDir=`"$pythonInstallDir`" PrependPath=0 Include_test=0"
+    Start-Process -FilePath $pythonInstaller -ArgumentList $installArgs -Wait
     
-    # Add site-packages to the ._pth file to enable pip packages
-    $pthFile = Join-Path $pythonInstallDir "python311._pth"
-    if ((Get-Content $pthFile) -notcontains "Lib\site-packages") {
-        Add-Content -Path $pthFile -Value "Lib\site-packages"
-    }
-    
-    Remove-Item $pythonZip -Force
-    Write-Host "Python runtime setup complete."
+    Remove-Item $pythonInstaller -Force
+    Write-Host "Python runtime installation complete."
 }
 $requirementsFile = Join-Path $projectRoot 'requirements.txt'
 if (Test-Path $requirementsFile) {
