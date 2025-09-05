@@ -35,7 +35,7 @@ if isempty(compiler_cfg)
 end
 
 % Configure CMake command
-cmake_configure_cmd = sprintf('"%s" -S "%s" -B "%s" -DCMAKE_INSTALL_PREFIX="%s" -DBUILD_STATIC=ON -DBUILD_TESTS=OFF -DWITH_LIBSODIUM=OFF', ...
+cmake_configure_cmd = sprintf('"%s" -S "%s" -B "%s" -A x64 -DCMAKE_INSTALL_PREFIX="%s" -DBUILD_STATIC=ON -DBUILD_TESTS=OFF -DWITH_LIBSODIUM=OFF', ...
     cmake_exe, ZMQ_SOURCE_DIR, ZMQ_BUILD_DIR, ZMQ_INSTALL_DIR);
 
 % Build command
