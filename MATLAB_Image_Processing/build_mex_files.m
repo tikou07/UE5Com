@@ -11,7 +11,7 @@ PROJECT_ROOT = fileparts(mfilename('fullpath'));
 ZMQ_SOURCE_DIR = fullfile(PROJECT_ROOT, 'ThirdParty', 'zeromq');
 CMAKE_INSTALL_DIR = fullfile(PROJECT_ROOT, 'ThirdParty', 'cmake');
 ZMQ_BUILD_DIR = fullfile(ZMQ_SOURCE_DIR, 'build');
-ZMQ_INSTALL_DIR = fullfile(ZMQ_SOURCE_DIR, 'install');
+ZMQ_INSTALL_DIR = fullfile(ZMQ_BUILD_DIR, 'install'); % Install into a subdir of the build dir
 
 % --- Build Command ---
 fprintf('Building MEX file for c_src/mex_zeromq_handler.cpp...\n');
