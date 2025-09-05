@@ -24,9 +24,12 @@ end
 
 % 2. Build ZeroMQ library using CMake
 fprintf('--- Building ZeroMQ library from source ---\n');
-if ~exist(ZMQ_BUILD_DIR, 'dir')
-    mkdir(ZMQ_BUILD_DIR);
+% Clean up previous build artifacts to avoid configuration conflicts
+if exist(ZMQ_BUILD_DIR, 'dir')
+    fprintf('Cleaning previous build directory...\n');
+    rmdir(ZMQ_BUILD_DIR, 's');
 end
+mkdir(ZMQ_BUILD_DIR);
 
 % Get MATLAB's C++ compiler configuration
 compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');

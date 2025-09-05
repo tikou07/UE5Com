@@ -76,8 +76,23 @@ $pythonInstallDir = Join-Path $projectRoot "python_runtime"
 $pyExe = Join-Path $pythonInstallDir "python.exe"
 
 if (-not (Test-Path $pyExe)) {
-    Write-Error "Python runtime not found at $pyExe. Please ensure the 'python_runtime' directory is correctly placed."
-    exit 1
+    Write-Host "Local Python runtime not found. Downloading and extracting Python..."
+    $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
+    $pythonZip = Join-Path $env:TEMP "python.zip"
+    
+    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonZip -UseBasicParsing
+    
+    if (-not (Test-Path $pythonInstallDir)) { New-Item -Path $pythonInstallDir -ItemType Directory | Out-Null }
+    Expand-Archive -Path $pythonZip -DestinationPath $pythonInstallDir -Force
+    
+    # Add site-packages to the ._pth file to enable pip packages
+    $pthFile = Join-Path $pythonInstallDir "python311._pth"
+    if ((Get-Content $pthFile) -notcontains "Lib\site-packages") {
+        Add-Content -Path $pthFile -Value "Lib\site-packages"
+    }
+    
+    Remove-Item $pythonZip -Force
+    Write-Host "Python runtime setup complete."
 }
 $requirementsFile = Join-Path $projectRoot 'requirements.txt'
 if (Test-Path $requirementsFile) {
