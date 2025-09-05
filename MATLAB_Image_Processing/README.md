@@ -44,3 +44,7 @@ MATLABを（通常モードで）起動し、`startup` スクリプトを実行�
 ```matlab
 startup
 run_image_processing_test
+```
+
+### 5. トラブルシューティング
+ビルドに失敗した場合、`MATLAB_Image_Processing` ディレクトリに `build_log.txt` というログファイルが生成されます。このファイルを開き、エラーメッセージの詳細を確認してください。

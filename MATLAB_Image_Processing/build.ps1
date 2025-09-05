@@ -82,9 +82,10 @@ try {
         "-nosplash"
     )
     
-    Write-Host "Starting MATLAB in $projectRoot..."
+    $logFile = Join-Path $projectRoot "build_log.txt"
+    Write-Host "Starting MATLAB in $projectRoot... Output will be logged to $logFile"
     
-    Start-Process -FilePath $matlabExe -ArgumentList $argumentList -WorkingDirectory $projectRoot -Wait -NoNewWindow
+    Start-Process -FilePath $matlabExe -ArgumentList $argumentList -WorkingDirectory $projectRoot -Wait -NoNewWindow -RedirectStandardOutput $logFile -RedirectStandardError $logFile
     
     Write-Host "MATLAB build process finished." -ForegroundColor Green
 } catch {
