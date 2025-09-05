@@ -85,4 +85,33 @@ try {
     Write-Host "Please check the installation logs above for errors."
 }
 
+# --- Step 4: Setup CMake ---
+Write-Host "`n--- Step 4: Setting up CMake ---"
+$cmakeInstallDir = Join-Path $projectRoot "ThirdParty\cmake"
+$cmakeExe = Join-Path $cmakeInstallDir "bin\cmake.exe"
+
+if (-not (Test-Path $cmakeExe)) {
+    Write-Host "CMake not found. Downloading and extracting CMake..."
+    $cmakeUrl = "https://github.com/Kitware/CMake/releases/download/v3.30.1/cmake-3.30.1-windows-x86_64.zip"
+    $cmakeZip = Join-Path $env:TEMP "cmake.zip"
+    
+    Invoke-WebRequest -Uri $cmakeUrl -OutFile $cmakeZip -UseBasicParsing
+    
+    Write-Host "Extracting CMake to $cmakeInstallDir..."
+    Expand-Archive -Path $cmakeZip -DestinationPath $env:TEMP -Force
+    
+    # The zip extracts to a folder like cmake-3.30.1-windows-x86_64, so we need to move its contents
+    $extractedDir = Get-ChildItem -Path $env:TEMP | Where-Object { $_.PSIsContainer -and $_.Name -like 'cmake-*' } | Select-Object -First 1
+    if ($extractedDir) {
+        Move-Item -Path (Join-Path $extractedDir.FullName "*") -Destination $cmakeInstallDir -Force
+        Remove-Item -Path $extractedDir.FullName -Recurse -Force
+    }
+    
+    Remove-Item -Path $cmakeZip -Force
+    Write-Host "CMake setup complete."
+} else {
+    Write-Host "CMake already exists at $cmakeExe."
+}
+
+
 Write-Host "`nSetup finished."
