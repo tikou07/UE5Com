@@ -113,6 +113,19 @@ end
 
 fprintf('All MEX files built successfully.\n');
 
+% 4. Copy ZeroMQ DLL to the mex directory
+fprintf('--- Copying ZeroMQ DLL to mex directory ---\n');
+ZMQ_DLL_DIR = fullfile(ZMQ_BUILD_DIR, 'bin', 'Release');
+dll_file = dir(fullfile(ZMQ_DLL_DIR, '*zmq*.dll'));
+if isempty(dll_file)
+    warning('Could not find built ZeroMQ DLL file. Runtime errors may occur.');
+else
+    source_dll = fullfile(dll_file(1).folder, dll_file(1).name);
+    destination_dll = fullfile(PROJECT_ROOT, 'mex', dll_file(1).name);
+    copyfile(source_dll, destination_dll);
+    fprintf('Successfully copied %s to mex directory.\n', dll_file(1).name);
+end
+
 end
 
 function cmake_path = find_cmake(local_cmake_dir)
