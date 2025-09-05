@@ -74,18 +74,17 @@ try {
         throw "matlab.exe not found in system PATH."
     }
     
-    $matlabCommand = "try; cd('$projectRoot'); build_mex_files; catch e; disp(e.getReport('extended')); exit(1); end; exit(0);"
     $argumentList = @(
         "-r",
-        $matlabCommand,
+        "run_build",
         "-wait",
         "-nodesktop",
         "-nosplash"
     )
     
-    Write-Host "Starting MATLAB..."
+    Write-Host "Starting MATLAB in $projectRoot..."
     
-    Start-Process -FilePath $matlabExe -ArgumentList $argumentList -Wait -NoNewWindow
+    Start-Process -FilePath $matlabExe -ArgumentList $argumentList -WorkingDirectory $projectRoot -Wait -NoNewWindow
     
     Write-Host "MATLAB build process finished." -ForegroundColor Green
 } catch {
