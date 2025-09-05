@@ -1,0 +1,276 @@
+ 
+開始するには doc と入力してください。
+製品情報については、www.mathworks.co.jp を参照してください。
+ 
+
+	Home License -- for personal use only.  Not for government,
+	academic, research, commercial, or other organizational use.
+
+Setting up environment for MATLAB_Image_Processing...
+Project Root: D:\takashi\workspace\UE5Com\MATLAB_Image_Processing
+Adding project source folders to path...
+Configuring Python environment...
+Found Python executable at: D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\python_runtime\python.exe
+Successfully configured MATLAB to use the local Python environment.
+Python Version: 3.11
+Environment setup complete.
+Building MEX file for c_src/mex_zeromq_handler.cpp...
+--- Building ZeroMQ library from source ---
+Configuring ZeroMQ build...
+Building and installing ZeroMQ...
+--- ZeroMQ library built successfully ---
+--- Building MEX file ---
+Deleting existing file: D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64
+詳細モードがオンです。
+MEX オプション ファイルを特定できません。暗黙的な選択を検索します。
+... コンパイラ 'Intel Parallel Studio XE 2020 for C++ with Microsoft Visual Studio 2017' を検索中...
+... 環境変数 'ICPP_COMPILER20' を検索中...いいえ。
+インストールされているコンパイラ 'Intel Parallel Studio XE 2020 for C++ with Microsoft Visual Studio 2017' は見つかりませんでした。
+... コンパイラ 'Intel Parallel Studio XE 2020 for C++ with Microsoft Visual Studio 2019' を検索中...
+... 環境変数 'ICPP_COMPILER20' を検索中...いいえ。
+インストールされているコンパイラ 'Intel Parallel Studio XE 2020 for C++ with Microsoft Visual Studio 2019' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2021 for C++ with Microsoft Visual Studio 2017' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2021 for C++ with Microsoft Visual Studio 2017' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2021 for C++ with Microsoft Visual Studio 2019' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2021 for C++ with Microsoft Visual Studio 2019' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2022 for C++ with Microsoft Visual Studio 2017' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2022 for C++ with Microsoft Visual Studio 2017' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2022 for C++ with Microsoft Visual Studio 2019' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2022 for C++ with Microsoft Visual Studio 2019' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2022 for C++ with Microsoft Visual Studio 2022' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2022 for C++ with Microsoft Visual Studio 2022' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2023 for C++ with Microsoft Visual Studio 2019' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2023 for C++ with Microsoft Visual Studio 2019' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2023 for C++ with Microsoft Visual Studio 2022' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2023 for C++ with Microsoft Visual Studio 2022' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2024 for C++ with Microsoft Visual Studio 2019' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... フォルダー 'C:\Program Files (x86)\Intel\oneAPI' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2024 for C++ with Microsoft Visual Studio 2019' は見つかりませんでした。
+... コンパイラ 'Intel oneAPI 2024 for C++ with Microsoft Visual Studio 2022' を検索中...
+... 環境変数 'ONEAPI_ROOT' を検索中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... フォルダー 'C:\Program Files (x86)\Intel\oneAPI' を検索中...いいえ。
+インストールされているコンパイラ 'Intel oneAPI 2024 for C++ with Microsoft Visual Studio 2022' は見つかりませんでした。
+... コンパイラ 'MinGW64 Compiler (C++)' を検索中...
+... 環境変数 'MW_MINGW64_LOC' を検索中...はい ('C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset')。
+... ファイル 'C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\g++.exe' を検索中...はい。
+... フォルダー 'C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset' を検索中...はい。
+... 環境変数 'MW_MINGW64_LOC' を検索中...はい ('C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset')。
+... 'C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\g++ -dumpmachine' コマンドの実行中...はい ('x86_64-w64-mingw32')。
+... 環境変数 'MW_MINGW64_LOC' を検索中...はい ('C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset')。
+... 'C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\g++ -dumpversion' コマンドの実行中...はい ('8.1.0')。
+インストールされているコンパイラ 'MinGW64 Compiler (C++)' が見つかりました。
+... コンパイラ 'MinGW64 Compiler with Windows 10 SDK or later (C++)' を検索中...
+... 環境変数 'MW_MINGW64_LOC' を検索中...はい ('C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset')。
+... ファイル 'C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\g++.exe' を検索中...はい。
+... フォルダー 'C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset' を検索中...はい。
+... 環境変数 'MW_MINGW64_LOC' を検索中...はい ('C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset')。
+... 'C:\ProgramData\MATLAB\SupportPackages\R2024b\3P.instrset\mingw_w64.instrset\bin\g++ -dumpversion' コマンドの実行中...はい ('8.1.0')。
+... レジストリ設定 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder を検索中...はい ('C:\Program Files (x86)\Windows Kits\10\')。
+... フォルダー 'C:\Program Files\MATLAB\R2024b' を検索中...はい。
+... '"C:\Program Files\MATLAB\R2024b\bin\mbuild.bat" -getWin10SDKVersion' コマンドの実行中...いいえ。
+インストールされているコンパイラ 'MinGW64 Compiler with Windows 10 SDK or later (C++)' は見つかりませんでした。
+... コンパイラ 'Microsoft Visual C++ 2017' を検索中...
+... レジストリ設定 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 15.0 を検索中...いいえ。
+... レジストリ設定 'HKCU\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 15.0 を検索中...いいえ。
+... レジストリ設定 'HKLM\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 15.0 を検索中...いいえ。
+... レジストリ設定 'HKCU\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 15.0 を検索中...いいえ。
+インストールされているコンパイラ 'Microsoft Visual C++ 2017' は見つかりませんでした。
+... コンパイラ 'Microsoft Visual C++ 2019' を検索中...
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[16.0,17.0)" -products Microsoft.VisualStudio.Product.Enterprise -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[16.0,17.0)" -products Microsoft.VisualStudio.Product.Professional -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[16.0,17.0)" -products Microsoft.VisualStudio.Product.Community -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[16.0,17.0)" -products Microsoft.VisualStudio.Product.BuildTools -property installationPath -format value' コマンドの実行中...いいえ。
+インストールされているコンパイラ 'Microsoft Visual C++ 2019' は見つかりませんでした。
+... コンパイラ 'Microsoft Visual C++ 2022' を検索中...
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Enterprise -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Professional -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Community -property installationPath -format value' コマンドの実行中...はい ('C:\Program Files\Microsoft Visual Studio\2022\Community')。
+... 'set "vcroot=C:\Program Files\Microsoft Visual Studio\2022\Community"&for /f "delims= " %a in ('type "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt"') do @if exist "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\%a\bin\HostX64\x64\cl.exe" call echo %vcroot%' コマンドの実行中...はい ('C:\Program Files\Microsoft Visual Studio\2022\Community')。
+... レジストリ設定 'HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder を検索中...いいえ。
+... レジストリ設定 'HKCU\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder を検索中...いいえ。
+... レジストリ設定 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v10.0' InstallationFolder を検索中...はい ('C:\Program Files (x86)\Windows Kits\10\')。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Enterprise -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Professional -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Community -property installationPath -format value' コマンドの実行中...はい ('C:\Program Files\Microsoft Visual Studio\2022\Community')。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Enterprise -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Professional -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Community -property installationPath -format value' コマンドの実行中...はい ('C:\Program Files\Microsoft Visual Studio\2022\Community')。
+... 'set "vcroot=C:\Program Files\Microsoft Visual Studio\2022\Community"&for /f "delims= " %a in ('type "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt"') do @if exist "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\%a\bin\HostX64\x64\cl.exe" call echo %vcroot%\VC\Tools\MSVC\%a' コマンドの実行中...はい ('C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207')。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Enterprise -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Professional -property installationPath -format value' コマンドの実行中...いいえ。
+... 環境変数 'ProgramFiles(x86)' を検索中...はい ('C:\Program Files (x86)')。
+... ファイル 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' を検索中...はい。
+... '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version "[17.0,18.0)" -products Microsoft.VisualStudio.Product.Community -property installationPath -format value' コマンドの実行中...はい ('C:\Program Files\Microsoft Visual Studio\2022\Community')。
+... ファイル 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat' を検索中...はい。
+... フォルダー 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build' を検索中...はい。
+... レジストリ設定 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows Kits\Installed Roots' KitsRoot10 を検索中...はい ('C:\Program Files (x86)\Windows Kits\10\')。
+... レジストリ設定 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows Kits\Installed Roots' KitsRoot10 を検索中...はい ('C:\Program Files (x86)\Windows Kits\10\')。
+... 'echo off&set "sdkversion="&(for /f %a IN ('dir "C:\Program Files (x86)\Windows Kits\10\include\" /b /ad-h /on') do ( @if exist "C:\Program Files (x86)\Windows Kits\10\include\%a\ucrt\" set "sdkversion=%a" ))&call echo %sdkversion%' コマンドの実行中...はい ('10.0.26100.0')。
+インストールされているコンパイラ 'Microsoft Visual C++ 2022' が見つかりました。
+PATH = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\vcpackages;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools;C:\Program Files (x86)\Windows Kits\10\\Bin\10.0.26100.0\x64;C:\Program Files (x86)\Windows Kits\10\\Bin\10.0.26100.0\x86;C:\Program Files (x86)\Windows Kits\10\\Bin\x64;C:\Program Files (x86)\Windows Kits\10\\Bin\x86;;C:\Program Files\Python311\Scripts\;C:\Program Files\Python311\;C:\Program Files\MATLAB\R2019b\bin\win64;C:\Program Files (x86)\VMware\VMware Workstation\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Wolfram Research\WolframScript\;C:\Program Files\dotnet\;C:\Users\tkami\AppData\Local\Microsoft\WindowsApps;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\MATLAB\R2024b\bin;C:\Program Files\GitHub CLI\;C:\Program Files\Git\cmd;C:\Users\tkami\.local\bin;C:\Users\tkami\AppData\Roaming\npm;C:\Users\tkami\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\tkami\.dotnet\tools に設定
+INCLUDE = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\atlmfc\include;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\winrt;C:\Program Files\MATLAB\R2024b\extern\include; に設定
+LIB = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\atlmfc\lib\x64;C:\Program Files (x86)\Windows Kits\10\\Lib\10.0.26100.0\ucrt\x64;C:\Program Files (x86)\Windows Kits\10\\lib\10.0.26100.0\um\x64;C:\Program Files\MATLAB\R2024b\lib\win64; に設定
+LIBPATH = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\atlmfc\lib\x64; に設定
+Options file details
+-------------------------------------------------------------------
+	Compiler location: C:\Program Files\Microsoft Visual Studio\2022\Community\
+	Options file: C:\Program Files\MATLAB\R2024b\bin\win64\mexopts\msvcpp2022.xml
+	CMDLINE200 : link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64
+	CMDLINE300 : del "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.ilk"
+	COMPILER : cl
+	COMPFLAGS : /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT
+	COMPDEFINES : /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE
+	MATLABMEX :  /DMATLAB_MEX_FILE
+	OPTIMFLAGS : /O2 /Oy- /DNDEBUG
+	INCLUDE : -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include"
+	DEBUGFLAGS : /Z7
+	LINKER : link
+	LINKFLAGS : /nologo  
+	LINKTYPE : /DLL
+	LINKEXPORT : /EXPORT:mexFunction
+	LINKEXPORTVER : /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion
+	LINKLIBS : libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib
+	LINKDEBUGFLAGS : /debug /PDB:"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64.pdb"
+	LINKOPTIMFLAGS : 
+	OBJEXT : .obj
+	LDEXT : .mexw64
+	SETENV : set COMPILER=cl
+                set COMPFLAGS=/c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE
+                set OPTIMFLAGS=/O2 /Oy- /DNDEBUG
+                set DEBUGFLAGS=/Z7
+                set LINKER=link
+                set LINKFLAGS=/nologo   /export:%ENTRYPOINT% /DLL liblibzmq-v143-mt-4_3_6.lib libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /EXPORT:mexFunction
+                set LINKDEBUGFLAGS=/debug /PDB:"%OUTDIR%%MEX_NAME%.mexw64.pdb"
+                set NAME_OUTPUT=/out:"%OUTDIR%%MEX_NAME%%MEX_EXT%"
+	VCROOT : C:\Program Files\Microsoft Visual Studio\2022\Community
+	SDKROOT : C:\Program Files (x86)\Windows Kits\10\
+	VSINSTALLDIR : C:\Program Files\Microsoft Visual Studio\2022\Community
+	VCINSTALLDIR : C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207
+	VCVARSALLDIR : C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build
+	KITSROOT : C:\Program Files (x86)\Windows Kits\10\
+	SDKVERSION : 10.0.26100.0
+	MATLABROOT : C:\Program Files\MATLAB\R2024b
+	ARCH : win64
+	SRC : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp";"C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp"
+	OBJ : C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.obj;C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj
+	OBJS : C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj 
+	SRCROOT : D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler
+	DEF : C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.def
+	EXP : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp"
+	LIB : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib"
+	EXE : D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64
+	ILK : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.ilk"
+	TEMPNAME : D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler
+	EXEDIR : D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\
+	EXENAME : mex_zeromq_handler
+	MANIFEST : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64.manifest"
+	LDFLAGS :  -static
+	OPTIM : /O2 /Oy- /DNDEBUG
+	LINKOPTIM : 
+	CMDLINE100_0 : cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.obj
+	CMDLINE100_1 : cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj
+-------------------------------------------------------------------
+'Microsoft Visual C++ 2022' でビルドしています。
+cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.obj
+cl : コマンド ライン warning D9025 : '/MD' より '/MT' が優先されます。
+
+mex_zeromq_handler.cpp
+D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp(94): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+
+cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj
+cl : コマンド ライン warning D9025 : '/MD' より '/MT' が優先されます。
+
+cpp_mexapi_version.cpp
+
+{ 
+  "bundle.symbolic_name" : "da9cf439-c48c-4270-b581-93912fdc9a76", 
+  "mw" : 
+  { 
+      "mex" : 
+      {
+          "apiVersion" : 0,
+          "release" : "R2024b",
+          "threadpoolSafe" : 0
+      }
+  } 
+}
+
+
+C:\Program Files\MATLAB\R2024b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_bundle.zip
+C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /fo C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_res.res C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_rc.rc
+
+link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64 C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_res.res 
+   ライブラリ D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib とオブジェクト D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp を作成中
+
+組み込みバージョンを '/DMATLAB_MEXCMD_RELEASE=R2017b' で再コンパイルしてください
+cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj /DMATLAB_MEXCMD_RELEASE=R2017b
+cl : コマンド ライン warning D9025 : '/MD' より '/MT' が優先されます。
+
+cpp_mexapi_version.cpp
+
+{ 
+  "bundle.symbolic_name" : "c79aaf0e-4962-4cf1-9152-5583926151e7", 
+  "mw" : 
+  { 
+      "mex" : 
+      {
+          "apiVersion" : 730,
+          "release" : "R2024b",
+          "threadpoolSafe" : 0
+      }
+  } 
+}
+
+
+C:\Program Files\MATLAB\R2024b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_bundle.zip
+C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /fo C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_res.res C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_rc.rc
+
+link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64 C:\Users\tkami\AppData\Local\Temp\mex_1111179297023476_39948\\mw_mex_tempmex_res.res 
+   ライブラリ D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib とオブジェクト D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp を作成中
+
+del "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.ilk"
+MEX は正常に完了しました。
+Successfully built D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64.
+All MEX files built successfully.
+--- Copying ZeroMQ DLL to mex directory ---
+Successfully copied libzmq-v143-mt-4_3_6.dll to mex directory.

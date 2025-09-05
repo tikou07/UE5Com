@@ -18,8 +18,24 @@ if (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 $projectRoot = $PSScriptRoot
 Write-Host "Project root: $projectRoot"
 
-# --- Step 1: Setup Python dependencies (from setup_environment.ps1) ---
-Write-Host "`n--- Step 1: Setting up Python dependencies ---"
+# --- Step 1: Initialize Git Submodules ---
+Write-Host "`n--- Step 1: Checking and initializing Git submodules ---"
+$zmqDir = Join-Path $projectRoot "ThirdParty\zeromq"
+if (-not (Test-Path (Join-Path $zmqDir "CMakeLists.txt"))) {
+    Write-Host "ZeroMQ submodule not initialized. Running 'git submodule update --init --recursive'..."
+    try {
+        git submodule update --init --recursive
+        Write-Host "Submodule initialized successfully." -ForegroundColor Green
+    } catch {
+        Write-Error "Failed to initialize submodule. Please run 'git submodule update --init --recursive' manually in the project root."
+        exit 1
+    }
+} else {
+    Write-Host "Submodule already initialized."
+}
+
+# --- Step 2: Setup Python dependencies (from setup_environment.ps1) ---
+Write-Host "`n--- Step 2: Setting up Python dependencies ---"
 $pythonInstallDir = Join-Path $projectRoot "python_runtime"
 $pyExe = Join-Path $pythonInstallDir "python.exe"
 
@@ -35,8 +51,8 @@ if (Test-Path $requirementsFile) {
     Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
 }
 
-# --- Step 2: Setup CMake (from setup_environment.ps1) ---
-Write-Host "`n--- Step 2: Setting up CMake ---"
+# --- Step 3: Setup CMake (from setup_environment.ps1) ---
+Write-Host "`n--- Step 3: Setting up CMake ---"
 $cmakeInstallDir = Join-Path $projectRoot "ThirdParty\cmake"
 if (-not (Test-Path $cmakeInstallDir)) {
     New-Item -Path $cmakeInstallDir -ItemType Directory | Out-Null
@@ -65,8 +81,8 @@ if (-not (Test-Path $cmakeExe)) {
     Write-Host "CMake already exists at $cmakeExe."
 }
 
-# --- Step 3: Run MATLAB build script ---
-Write-Host "`n--- Step 3: Running MATLAB build script ---"
+# --- Step 4: Run MATLAB build script ---
+Write-Host "`n--- Step 4: Running MATLAB build script ---"
 function Find-MatlabExe {
     # 1. Try to find via Get-Command (if in PATH)
     try {
