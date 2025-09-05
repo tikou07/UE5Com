@@ -4,11 +4,6 @@
 
 $ErrorActionPreference = 'Stop'
 
-# --- Ensure the script is run as Administrator ---
-if (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Write-Error "This script must be run with Administrator privileges. Please re-run from an elevated PowerShell prompt."
-    exit 1
-}
 
 $projectRoot = $PSScriptRoot
 Write-Host "Project root: $projectRoot"
@@ -76,25 +71,48 @@ $pythonInstallDir = Join-Path $projectRoot "python_runtime"
 $pyExe = Join-Path $pythonInstallDir "python.exe"
 
 if (-not (Test-Path $pyExe)) {
-    Write-Host "Local Python runtime not found. Downloading and installing Python..."
-    $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe"
-    $pythonInstaller = Join-Path $env:TEMP "python_installer.exe"
+    Write-Host "Local Python runtime not found. Downloading and extracting Python embeddable package..."
+    $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
+    $pythonZip = Join-Path $env:TEMP "python.zip"
     
-    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller -UseBasicParsing
+    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonZip -UseBasicParsing
     
-    Write-Host "Installing Python to $pythonInstallDir..."
-    # Quiet install, TargetDir specifies the installation location.
-    # See: https://docs.python.org/3/using/windows.html#installing-without-a-ui
-    $installArgs = "/quiet InstallAllUsers=0 TargetDir=`"$pythonInstallDir`" PrependPath=0 Include_test=0"
-    Start-Process -FilePath $pythonInstaller -ArgumentList $installArgs -Wait
+    Write-Host "Extracting Python to $pythonInstallDir..."
+    if (-not (Test-Path $pythonInstallDir)) { New-Item -Path $pythonInstallDir -ItemType Directory | Out-Null }
+    Expand-Archive -Path $pythonZip -DestinationPath $pythonInstallDir -Force
     
-    Remove-Item $pythonInstaller -Force
-    Write-Host "Python runtime installation complete."
+    Remove-Item $pythonZip -Force
+    
+    # Verify installation
+    $pyExe = Join-Path $pythonInstallDir "python.exe"
+    if (-not (Test-Path $pyExe)) {
+        Write-Error "Python extraction failed. python.exe not found in $pythonInstallDir"
+        exit 1
+    }
+    Write-Host "Python runtime setup complete. Found at $pyExe"
+    
+    # Update pth file to include site-packages
+    $pthFile = Join-Path $pythonInstallDir "python311._pth"
+    Add-Content -Path $pthFile -Value "Lib\site-packages"
+
+    # Install pip
+    $getPipUrl = "https://bootstrap.pypa.io/get-pip.py"
+    $getPipScript = Join-Path $env:TEMP "get-pip.py"
+    Invoke-WebRequest -Uri $getPipUrl -OutFile $getPipScript -UseBasicParsing
+    & $pyExe $getPipScript
+    Remove-Item $getPipScript -Force
+    Write-Host "pip installed successfully."
 }
+
 $requirementsFile = Join-Path $projectRoot 'requirements.txt'
 if (Test-Path $requirementsFile) {
     Write-Host "Installing Python requirements from $requirementsFile..."
-    & $pyExe -m pip install -r $requirementsFile
+    $pipExe = Join-Path $pythonInstallDir "Scripts\pip.exe"
+    if (-not (Test-Path $pipExe)) {
+        Write-Error "pip.exe not found after installation."
+        exit 1
+    }
+    & $pipExe install -r $requirementsFile
 } else {
     Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
 }
@@ -137,18 +155,26 @@ if (-not $matlabExe) {
 
 $logFile = Join-Path $projectRoot "build_log.txt"
 if (Test-Path $logFile) {
-    Remove-Item $logFile
+    Remove-Item $logFile -Force
 }
 
 Write-Host "Starting MATLAB in $projectRoot... Output will be logged to $logFile"
 
-& $matlabExe -r "run_build" -wait -nodesktop -nosplash -logfile $logFile
+try {
+    & $matlabExe -sd "$projectRoot" -r "run_build" -wait -nodesktop -nosplash -logfile $logFile
 
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "MATLAB build process failed. Check the log for details: $logFile"
-    Get-Content $logFile | Write-Error
-    exit 1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "MATLAB build process failed. Check the log for details: $logFile"
+        Get-Content $logFile | Write-Error
+        exit 1
+    }
+
+    Write-Host "MATLAB build process finished." -ForegroundColor Green
+}
+finally {
+    # --- Finalization: Kill any lingering MATLAB processes ---
+    Write-Host "Ensuring all MATLAB processes are terminated."
+    Get-Process -Name "MATLAB" -ErrorAction SilentlyContinue | Stop-Process -Force
 }
 
-Write-Host "MATLAB build process finished." -ForegroundColor Green
 Write-Host "`nBuild process completed."

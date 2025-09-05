@@ -16,6 +16,7 @@ Python Version: 3.11
 Environment setup complete.
 Building MEX file for c_src/mex_zeromq_handler.cpp...
 --- Building ZeroMQ library from source ---
+Cleaning previous build directory...
 Configuring ZeroMQ build...
 Building and installing ZeroMQ...
 --- ZeroMQ library built successfully ---
@@ -155,7 +156,7 @@ Options file details
 -------------------------------------------------------------------
 	Compiler location: C:\Program Files\Microsoft Visual Studio\2022\Community\
 	Options file: C:\Program Files\MATLAB\R2024b\bin\win64\mexopts\msvcpp2022.xml
-	CMDLINE200 : link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64
+	CMDLINE200 : link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64
 	CMDLINE300 : del "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.ilk"
 	COMPILER : cl
 	COMPFLAGS : /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT
@@ -192,10 +193,10 @@ Options file details
 	MATLABROOT : C:\Program Files\MATLAB\R2024b
 	ARCH : win64
 	SRC : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp";"C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp"
-	OBJ : C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.obj;C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj
-	OBJS : C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj 
+	OBJ : C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.obj;C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj
+	OBJS : C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj 
 	SRCROOT : D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler
-	DEF : C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.def
+	DEF : C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.def
 	EXP : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp"
 	LIB : "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib"
 	EXE : D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64
@@ -207,23 +208,23 @@ Options file details
 	LDFLAGS :  -static
 	OPTIM : /O2 /Oy- /DNDEBUG
 	LINKOPTIM : 
-	CMDLINE100_0 : cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.obj
-	CMDLINE100_1 : cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj
+	CMDLINE100_0 : cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.obj
+	CMDLINE100_1 : cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj
 -------------------------------------------------------------------
 'Microsoft Visual C++ 2022' でビルドしています。
-cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.obj
+cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.obj
 cl : コマンド ライン warning D9025 : '/MD' より '/MT' が優先されます。
 
 mex_zeromq_handler.cpp
 D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\c_src\mex_zeromq_handler.cpp(94): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
 
-cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj
+cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj
 cl : コマンド ライン warning D9025 : '/MD' より '/MT' が優先されます。
 
 cpp_mexapi_version.cpp
 
 { 
-  "bundle.symbolic_name" : "b49084fe-7347-4a0f-93a8-e8f1b4e522af", 
+  "bundle.symbolic_name" : "b3b9c117-c892-4c9c-bf9d-f6f37a1a5d32", 
   "mw" : 
   { 
       "mex" : 
@@ -236,20 +237,20 @@ cpp_mexapi_version.cpp
 }
 
 
-C:\Program Files\MATLAB\R2024b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_bundle.zip
-C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /fo C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_res.res C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_rc.rc
+C:\Program Files\MATLAB\R2024b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_bundle.zip
+C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /fo C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_res.res C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_rc.rc
 
-link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64 C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_res.res 
+link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64 C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_res.res 
    ライブラリ D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib とオブジェクト D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp を作成中
 
 組み込みバージョンを '/DMATLAB_MEXCMD_RELEASE=R2017b' で再コンパイルしてください
-cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj /DMATLAB_MEXCMD_RELEASE=R2017b
+cl /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /MT /O2 /Oy- /DNDEBUG /DMATLAB_DEFAULT_RELEASE=R2017b  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\include" -I"D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\include"  -I"C:\Program Files\MATLAB\R2024b\extern\include" -I"C:\Program Files\MATLAB\R2024b\simulink\include" "C:\Program Files\MATLAB\R2024b\extern\version\cpp_mexapi_version.cpp" /FoC:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj /DMATLAB_MEXCMD_RELEASE=R2017b
 cl : コマンド ライン warning D9025 : '/MD' より '/MT' が優先されます。
 
 cpp_mexapi_version.cpp
 
 { 
-  "bundle.symbolic_name" : "723d4b7f-1639-43e0-95dd-d3573e0b4da0", 
+  "bundle.symbolic_name" : "0cc6421d-01da-4e28-8307-30e663b78edb", 
   "mw" : 
   { 
       "mex" : 
@@ -262,10 +263,10 @@ cpp_mexapi_version.cpp
 }
 
 
-C:\Program Files\MATLAB\R2024b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_bundle.zip
-C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /fo C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_res.res C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_rc.rc
+C:\Program Files\MATLAB\R2024b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_bundle.zip
+C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /fo C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_res.res C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_rc.rc
 
-link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64 C:\Users\tkami\AppData\Local\Temp\mex_1120909141983341_41408\\mw_mex_tempmex_res.res 
+link /nologo   /DLL  /EXPORT:mexFunction /EXPORT:mexfilerequiredapiversion C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\mex_zeromq_handler.obj C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\cpp_mexapi_version.obj  libzmq-v143-mt-4_3_6.lib   /LIBPATH:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\ThirdParty\zeromq\build\install\lib   /LIBPATH:"C:\Program Files\MATLAB\R2024b\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib /out:D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.mexw64 C:\Users\tkami\AppData\Local\Temp\mex_1149718660827150_34508\\mw_mex_tempmex_res.res 
    ライブラリ D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib とオブジェクト D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp を作成中
 
 del "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.exp" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.lib" "D:\takashi\workspace\UE5Com\MATLAB_Image_Processing\mex\mex_zeromq_handler.ilk"
