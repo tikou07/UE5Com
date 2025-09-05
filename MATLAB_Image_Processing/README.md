@@ -14,22 +14,15 @@ ZeroMQライブラリは、ビルドスクリプト実行時に各環境のC++�
   - MATLABを起動し、コマンドウィンドウで `mex -setup C++` を実行して、使用するコンパイラが正しく設定されていることを確認してください。
 
 ### 2. ビルドの実行 (初回のみ)
-このプロジェクトのセットアップとビルドは、単一のPowerShellスクリプトで完結します。リポジトリをクローンした直後に、以下の手順を実行してください。
+このプロジェクトのセットアップとビルドは、`build.bat` を実行するだけで完結します。
 
-1.  **PowerShellを管理者として実行**
-    - Windowsのスタートメニューで「PowerShell」と検索し、「Windows PowerShell」を右クリックして **「管理者として実行」** を選択します。
+1.  **`build.bat` を実行**
+    - `MATLAB_Image_Processing` ディレクトリにある `build.bat` ファイルをダブルクリックして実行します。
+    - ユーザーアカウント制御(UAC)のプロンプトが表示されたら「はい」をクリックして、管理者権限を許可してください。
 
-2.  **ビルドスクリプトの実行**
-    - 管理者として開いたPowerShellで、この `MATLAB_Image_Processing` ディレクトリに移動します。
-      ```powershell
-      cd "D:\path\to\your\project\MATLAB_Image_Processing" 
-      ```
-      (※ `D:\path\to\your\project` の部分は実際のパスに置き換えてください)
-    - 次に、以下のコマンドを実行してビルドスクリプトを開始します。
-      ```powershell
-      PowerShell -ExecutionPolicy Bypass -File .\build.ps1
-      ```
-    - このスクリプトは、Gitサブモジュールの初期化、依存関係のセットアップ（Python, CMake）、ZeroMQライブラリのビルド、MEXファイルのコンパイルまで、すべてのプロセスを自動的に実行します。初回実行時は完了までに数分かかる場合があります。
+2.  **自動処理の待機**
+    - スクリプトが、Gitサブモジュールの初期化、依存関係のセットアップ（Python, CMake）、ZeroMQライブラリのビルド、MEXファイルのコンパイルまで、すべてのプロセスを自動的に実行します。
+    - 初回実行時は完了までに数分かかる場合があります。完了すると、コンソールに「Press any key to continue...」と表示されます。
 
 `mex` ディレクトリ内に `mex_zeromq_handler.mexw64` と、依存するDLLファイルが生成されていれば成功です。
 
