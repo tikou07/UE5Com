@@ -30,12 +30,10 @@ if isfolder(pythonRuntimeDir) && isfile(pythonExe)
         fprintf('Python Version: %s\n', pyVer);
         
     catch ME
-        warning('Failed to set Python environment. Please check your MATLAB Python configuration.');
-        warning(ME.message);
+        error('Failed to set Python environment. Please ensure all dependencies were installed correctly by build.ps1. Original error: %s', ME.message);
     end
 else
-    warning('Local Python runtime not found. Please run setup_environment.ps1 first.');
-    fprintf('Expected Python executable at: %s\n', pythonExe);
+    error('Local Python runtime not found. Please run build.ps1 to set up the environment.');
 end
 
 fprintf('Environment setup complete.\n');
