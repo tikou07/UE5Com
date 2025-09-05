@@ -67,11 +67,40 @@ if (-not (Test-Path $cmakeExe)) {
 
 # --- Step 3: Run MATLAB build script ---
 Write-Host "`n--- Step 3: Running MATLAB build script ---"
+function Find-MatlabExe {
+    # 1. Try to find via Get-Command (if in PATH)
+    try {
+        $matlabExe = (Get-Command matlab -ErrorAction Stop).Source
+        if ($matlabExe) {
+            Write-Host "Found MATLAB executable in PATH: $matlabExe"
+            return $matlabExe
+        }
+    } catch {}
+
+    # 2. Search common installation directories
+    Write-Host "MATLAB not found in PATH. Searching common installation locations..."
+    $programFiles = ${env:ProgramFiles}
+    $matlabRoot = Get-ChildItem -Path "$programFiles\MATLAB" -Directory -ErrorAction SilentlyContinue |
+                  Where-Object { $_.Name -match '^R\d{4}[ab]$' } |
+                  Sort-Object Name -Descending |
+                  Select-Object -First 1
+    
+    if ($matlabRoot) {
+        $matlabExe = Join-Path $matlabRoot.FullName "bin\matlab.exe"
+        if (Test-Path $matlabExe) {
+            Write-Host "Found MATLAB executable at: $matlabExe"
+            return $matlabExe
+        }
+    }
+
+    return $null
+}
+
 try {
     # Find matlab.exe
-    $matlabExe = (Get-Command matlab).Source
+    $matlabExe = Find-MatlabExe
     if (-not $matlabExe) {
-        throw "matlab.exe not found in system PATH."
+        throw "Could not find matlab.exe. Please ensure MATLAB is installed and that its 'bin' directory is in the system's PATH environment variable."
     }
     
     $argumentList = @(
