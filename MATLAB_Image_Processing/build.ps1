@@ -71,37 +71,60 @@ $pythonInstallDir = Join-Path $projectRoot "python_runtime"
 $pyExe = Join-Path $pythonInstallDir "python.exe"
 
 if (-not (Test-Path $pyExe)) {
-    Write-Host "Local Python runtime not found. Downloading and extracting Python embeddable package..."
-    $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
-    $pythonZip = Join-Path $env:TEMP "python.zip"
+    Write-Host "Local Python runtime not found. Downloading and installing Python..."
     
-    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonZip -UseBasicParsing
-    
-    Write-Host "Extracting Python to $pythonInstallDir..."
-    if (-not (Test-Path $pythonInstallDir)) { New-Item -Path $pythonInstallDir -ItemType Directory | Out-Null }
-    Expand-Archive -Path $pythonZip -DestinationPath $pythonInstallDir -Force
-    
-    Remove-Item $pythonZip -Force
-    
-    # Verify installation
-    $pyExe = Join-Path $pythonInstallDir "python.exe"
-    if (-not (Test-Path $pyExe)) {
-        Write-Error "Python extraction failed. python.exe not found in $pythonInstallDir"
+    try {
+        $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
+        $pythonZip = Join-Path $env:TEMP "python.zip"
+        
+        Write-Host "Downloading Python from $pythonUrl..."
+        Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonZip -UseBasicParsing
+        
+        if (-not (Test-Path $pythonZip)) {
+            throw "Failed to download Python zip file."
+        }
+
+        Write-Host "Installing Python to $pythonInstallDir..."
+        if (-not (Test-Path $pythonInstallDir)) { New-Item -Path $pythonInstallDir -ItemType Directory | Out-Null }
+        Expand-Archive -Path $pythonZip -DestinationPath $pythonInstallDir -Force
+        
+        Remove-Item $pythonZip -Force
+
+        # Verify extraction
+        if ((Get-ChildItem -Path $pythonInstallDir).Count -eq 0) {
+            throw "Python extraction failed. The destination directory is empty."
+        }
+
+        $pyExe = Join-Path $pythonInstallDir "python.exe"
+        if (-not (Test-Path $pyExe)) {
+            throw "Python extraction failed. python.exe not found in $pythonInstallDir"
+        }
+        
+        Write-Host "Python runtime installation complete."
+
+        # Update pth file to include site-packages for module discovery
+        $pthFile = Join-Path $pythonInstallDir "python311._pth"
+        if (Test-Path $pthFile) {
+            Add-Content -Path $pthFile -Value "Lib\site-packages"
+        } else {
+            throw "Could not find python311._pth file to enable site-packages."
+        }
+
+        # Install pip
+        Write-Host "Installing pip..."
+        $getPipUrl = "https://bootstrap.pypa.io/get-pip.py"
+        $getPipScript = Join-Path $env:TEMP "get-pip.py"
+        Invoke-WebRequest -Uri $getPipUrl -OutFile $getPipScript -UseBasicParsing
+        
+        Start-Process -FilePath $pyExe -ArgumentList $getPipScript -Wait -NoNewWindow
+        
+        Remove-Item $getPipScript -Force
+        Write-Host "pip installed successfully."
+
+    } catch {
+        Write-Error "An error occurred during Python setup: $_"
         exit 1
     }
-    Write-Host "Python runtime setup complete. Found at $pyExe"
-    
-    # Update pth file to include site-packages
-    $pthFile = Join-Path $pythonInstallDir "python311._pth"
-    Add-Content -Path $pthFile -Value "Lib\site-packages"
-
-    # Install pip
-    $getPipUrl = "https://bootstrap.pypa.io/get-pip.py"
-    $getPipScript = Join-Path $env:TEMP "get-pip.py"
-    Invoke-WebRequest -Uri $getPipUrl -OutFile $getPipScript -UseBasicParsing
-    & $pyExe $getPipScript
-    Remove-Item $getPipScript -Force
-    Write-Host "pip installed successfully."
 }
 
 $requirementsFile = Join-Path $projectRoot 'requirements.txt'
@@ -109,10 +132,16 @@ if (Test-Path $requirementsFile) {
     Write-Host "Installing Python requirements from $requirementsFile..."
     $pipExe = Join-Path $pythonInstallDir "Scripts\pip.exe"
     if (-not (Test-Path $pipExe)) {
-        Write-Error "pip.exe not found after installation."
+        Write-Error "pip.exe not found. Cannot install requirements."
         exit 1
     }
-    & $pipExe install -r $requirementsFile
+    try {
+        Start-Process -FilePath $pipExe -ArgumentList "install -r `"$requirementsFile`"" -Wait -NoNewWindow
+        Write-Host "Python requirements installed successfully." -ForegroundColor Green
+    } catch {
+        Write-Error "Failed to install Python requirements: $_"
+        exit 1
+    }
 } else {
     Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
 }
