@@ -103,18 +103,23 @@ try {
         throw "Could not find matlab.exe. Please ensure MATLAB is installed and that its 'bin' directory is in the system's PATH environment variable."
     }
     
-    $argumentList = @(
-        "-r",
-        "run_build",
-        "-wait",
-        "-nodesktop",
-        "-nosplash"
-    )
-    
     $logFile = Join-Path $projectRoot "build_log.txt"
+    if (Test-Path $logFile) {
+        Remove-Item $logFile
+    }
+    
     Write-Host "Starting MATLAB in $projectRoot... Output will be logged to $logFile"
     
-    Start-Process -FilePath $matlabExe -ArgumentList $argumentList -WorkingDirectory $projectRoot -Wait -NoNewWindow -RedirectStandardOutput $logFile -RedirectStandardError $logFile
+    # Use the call operator (&) and MATLAB's -logfile option for robustness
+    & $matlabExe -r "run_build" -wait -nodesktop -nosplash -logfile $logFile
+    
+    # Check the exit code from MATLAB
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "MATLAB build process failed. Check the log for details: $logFile"
+        # Display the log content in the console for immediate feedback
+        Get-Content $logFile | Write-Error
+        exit 1
+    }
     
     Write-Host "MATLAB build process finished." -ForegroundColor Green
 } catch {

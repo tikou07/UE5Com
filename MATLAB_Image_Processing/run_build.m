@@ -7,4 +7,6 @@ catch e
     fprintf(2, '%s\n', e.getReport('extended'));
     exit(1);
 end
-exit(0);
+if ~isdeployed
+    exit(0);
+end
