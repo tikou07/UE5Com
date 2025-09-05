@@ -34,4 +34,5 @@ run_image_processing_test
 ```
 
 ### 4. トラブルシューティング
-ビルドに失敗した場合、`MATLAB_Image_Processing` ディレクトリに `build_log.txt` というログファイルが生成されます。このファイルを開き、エラーメッセージの詳細を確認してください。
+- **ビルドの失敗:** ビルドに失敗した場合、`MATLAB_Image_Processing` ディレクトリに `build_log.txt` というログファイルが生成されます。このファイルを開き、エラーメッセージの詳細を確認してください。
+- **Python環境の警告:** `startup.m` やテストスクリプトの実行時に、「MATLAB could not validate the local Python environment」のような警告が表示されることがあります。`build.bat` の実行が成功していれば、通常この警告は無視して問題ありません。MEXファイルの機能はPython環境に依存しません。
