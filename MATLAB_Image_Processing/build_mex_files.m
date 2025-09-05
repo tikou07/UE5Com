@@ -19,7 +19,7 @@ fprintf('Building MEX file for c_src/mex_zeromq_handler.cpp...\n');
 % 1. Find CMake executable
 cmake_exe = find_cmake(CMAKE_INSTALL_DIR);
 if isempty(cmake_exe)
-    error('CMake not found. Please run setup_environment.ps1 first or install CMake and add it to the system PATH.');
+    error('CMake not found. Please run build.ps1 from an Administrator PowerShell prompt to ensure all dependencies are set up correctly.');
 end
 
 % 2. Build ZeroMQ library using CMake
