@@ -130,13 +130,10 @@ if (-not (Test-Path $pyExe)) {
 $requirementsFile = Join-Path $projectRoot 'requirements.txt'
 if (Test-Path $requirementsFile) {
     Write-Host "Installing Python requirements from $requirementsFile..."
-    $pipExe = Join-Path $pythonInstallDir "Scripts\pip.exe"
-    if (-not (Test-Path $pipExe)) {
-        Write-Error "pip.exe not found. Cannot install requirements."
-        exit 1
-    }
+    # Use "python.exe -m pip" to avoid issues with executable paths in different environments.
+    $pipArgs = "-m pip install -r `"$requirementsFile`""
     try {
-        Start-Process -FilePath $pipExe -ArgumentList "install -r `"$requirementsFile`"" -Wait -NoNewWindow
+        Start-Process -FilePath $pyExe -ArgumentList $pipArgs -Wait -NoNewWindow
         Write-Host "Python requirements installed successfully." -ForegroundColor Green
     } catch {
         Write-Error "Failed to install Python requirements: $_"
