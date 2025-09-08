@@ -74,8 +74,28 @@ output_file = fullfile(PROJECT_ROOT, 'mex', [OUTPUT_NAME, '.', mexext]);
 
 % Delete existing MEX file
 if exist(output_file, 'file')
-    fprintf('Deleting existing file: %s\n', output_file);
-    delete(output_file);
+    fprintf('Attempting to delete existing file: %s\n', output_file);
+    max_retries = 5;
+    for i = 1:max_retries
+        try
+            delete(output_file);
+            pause(0.2); % Short pause to allow filesystem to catch up
+        catch ME
+            fprintf('Warning: Attempt %d to delete file failed: %s\n', i, ME.message);
+        end
+        
+        if ~exist(output_file, 'file')
+            fprintf('Successfully deleted existing file.\n');
+            break;
+        end
+        
+        if i < max_retries
+            fprintf('File still exists. Retrying in 1 second...\n');
+            pause(1);
+        else
+            error('Could not delete existing MEX file: %s. It may be locked by another process (e.g., another MATLAB instance or a zombie process). Please close any other MATLAB instances and try again.', output_file);
+        end
+    end
 end
 
 % Construct the mex command

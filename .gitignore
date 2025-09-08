@@ -20,6 +20,7 @@ Saved/
 
 # Other
 *.log
+build_log.txt
 
 # Python runtime
 **/python_runtime/
