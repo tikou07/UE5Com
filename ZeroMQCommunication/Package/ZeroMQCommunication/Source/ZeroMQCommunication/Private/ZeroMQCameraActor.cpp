@@ -20,6 +20,7 @@ AZeroMQCameraActor::AZeroMQCameraActor()
 	SceneCaptureComponent->CaptureSource = SCS_FinalColorLDR;
 	SceneCaptureComponent->bCaptureEveryFrame = false; // We'll capture manually
 	SceneCaptureComponent->bCaptureOnMovement = false;
+	SceneCaptureComponent->bAlwaysPersistRenderingState = true;
 
 	ZeroMQReceiverComponent = CreateDefaultSubobject<UZeroMQReceiverComponent>(TEXT("ZeroMQReceiverComponent"));
 }
