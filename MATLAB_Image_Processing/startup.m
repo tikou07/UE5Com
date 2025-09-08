@@ -16,10 +16,16 @@ addpath(fullfile(projectRoot, 'mex'));
 
 % --- Configure Python Environment ---
 fprintf('Configuring Python environment...\n');
-pythonRuntimeDir = fullfile(projectRoot, 'python_runtime');
-pythonExe = fullfile(pythonRuntimeDir, 'python.exe');
+% The Python environment is now managed by uv in the .venv directory
+venvDir = fullfile(projectRoot, '.venv');
+% On Windows, the executable is in the Scripts subdirectory
+if ispc
+    pythonExe = fullfile(venvDir, 'Scripts', 'python.exe');
+else
+    pythonExe = fullfile(venvDir, 'bin', 'python');
+end
 
-if isfolder(pythonRuntimeDir) && isfile(pythonExe)
+if isfolder(venvDir) && isfile(pythonExe)
     fprintf('Found Python executable at: %s\n', pythonExe);
     try
         pyenv('Version', pythonExe);
@@ -34,7 +40,7 @@ if isfolder(pythonRuntimeDir) && isfile(pythonExe)
         warning('MATLAB:PythonSetup', 'Original error: %s', ME.message);
     end
 else
-    warning('Local Python runtime not found. Please run build.bat to set up the environment.');
+    warning('Python virtual environment not found in ./.venv. Please run build.bat to set up the environment.');
 end
 
 fprintf('Environment setup complete.\n');

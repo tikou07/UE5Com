@@ -65,82 +65,63 @@ if (-not (Test-Path (Join-Path $zmqDir "CMakeLists.txt"))) {
     Write-Host "Submodule already initialized."
 }
 
-# --- Step 3: Setup Python dependencies ---
-Write-Host "`n--- Step 3: Setting up Python dependencies ---"
-$pythonInstallDir = Join-Path $projectRoot "python_runtime"
-$pyExe = Join-Path $pythonInstallDir "python.exe"
+# --- Step 3: Setup Python dependencies using uv ---
+Write-Host "`n--- Step 3: Setting up Python dependencies using uv ---"
 
-if (-not (Test-Path $pyExe)) {
-    Write-Host "Local Python runtime not found. Downloading and installing Python..."
-    
-    try {
-        $pythonUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
-        $pythonZip = Join-Path $env:TEMP "python.zip"
+try {
+    # 1. Setup uv
+    $uvInstallDir = Join-Path $projectRoot "ThirdParty\uv"
+    $uvExe = Join-Path $uvInstallDir "uv.exe"
+
+    if (-not (Test-Path $uvExe)) {
+        Write-Host "uv not found. Downloading and installing uv..."
+        New-Item -Path $uvInstallDir -ItemType Directory -Force | Out-Null
         
-        Write-Host "Downloading Python from $pythonUrl..."
-        Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonZip -UseBasicParsing
+        # Directly download the uv executable zip for Windows
+        $uvZipUrl = "https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip"
+        $uvZipPath = Join-Path $env:TEMP "uv.zip"
         
-        if (-not (Test-Path $pythonZip)) {
-            throw "Failed to download Python zip file."
+        Invoke-WebRequest -Uri $uvZipUrl -OutFile $uvZipPath -UseBasicParsing
+        
+        # Extract the contents directly to our target directory
+        Expand-Archive -Path $uvZipPath -DestinationPath $uvInstallDir -Force
+        
+        Remove-Item $uvZipPath -Force
+
+        if (-not (Test-Path $uvExe)) {
+            throw "uv installation failed. uv.exe not found in $uvInstallDir"
         }
-
-        Write-Host "Installing Python to $pythonInstallDir..."
-        if (-not (Test-Path $pythonInstallDir)) { New-Item -Path $pythonInstallDir -ItemType Directory | Out-Null }
-        Expand-Archive -Path $pythonZip -DestinationPath $pythonInstallDir -Force
-        
-        Remove-Item $pythonZip -Force
-
-        # Verify extraction
-        if ((Get-ChildItem -Path $pythonInstallDir).Count -eq 0) {
-            throw "Python extraction failed. The destination directory is empty."
-        }
-
-        $pyExe = Join-Path $pythonInstallDir "python.exe"
-        if (-not (Test-Path $pyExe)) {
-            throw "Python extraction failed. python.exe not found in $pythonInstallDir"
-        }
-        
-        Write-Host "Python runtime installation complete."
-
-        # Update pth file to include site-packages for module discovery
-        $pthFile = Join-Path $pythonInstallDir "python311._pth"
-        if (Test-Path $pthFile) {
-            Add-Content -Path $pthFile -Value "Lib\site-packages"
-        } else {
-            throw "Could not find python311._pth file to enable site-packages."
-        }
-
-        # Install pip
-        Write-Host "Installing pip..."
-        $getPipUrl = "https://bootstrap.pypa.io/get-pip.py"
-        $getPipScript = Join-Path $env:TEMP "get-pip.py"
-        Invoke-WebRequest -Uri $getPipUrl -OutFile $getPipScript -UseBasicParsing
-        
-        Start-Process -FilePath $pyExe -ArgumentList $getPipScript -Wait -NoNewWindow
-        
-        Remove-Item $getPipScript -Force
-        Write-Host "pip installed successfully."
-
-    } catch {
-        Write-Error "An error occurred during Python setup: $_"
-        exit 1
+        Write-Host "uv installed successfully to $uvExe"
+    } else {
+        Write-Host "uv found at $uvExe"
     }
-}
 
-$requirementsFile = Join-Path $projectRoot 'requirements.txt'
-if (Test-Path $requirementsFile) {
-    Write-Host "Installing Python requirements from $requirementsFile..."
-    # Use "python.exe -m pip" to avoid issues with executable paths in different environments.
-    $pipArgs = "-m pip install -r `"$requirementsFile`""
-    try {
-        Start-Process -FilePath $pyExe -ArgumentList $pipArgs -Wait -NoNewWindow
+    # 2. Create a virtual environment
+    $venvDir = Join-Path $projectRoot ".venv"
+    $pyExe = Join-Path $venvDir "Scripts\python.exe"
+
+    if (-not (Test-Path $pyExe)) {
+        Write-Host "Python virtual environment not found. Creating one with uv..."
+        # Specify a Python version that uv should find or download
+        & $uvExe venv -p 3.11 "$venvDir"
+        Write-Host "Virtual environment created at $venvDir"
+    } else {
+        Write-Host "Python virtual environment already exists at $venvDir"
+    }
+
+    # 3. Install requirements
+    $requirementsFile = Join-Path $projectRoot 'requirements.txt'
+    if (Test-Path $requirementsFile) {
+        Write-Host "Installing Python requirements from $requirementsFile..."
+        & $uvExe pip install -r "$requirementsFile" --python "$pyExe"
         Write-Host "Python requirements installed successfully." -ForegroundColor Green
-    } catch {
-        Write-Error "Failed to install Python requirements: $_"
-        exit 1
+    } else {
+        Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
     }
-} else {
-    Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
+
+} catch {
+    Write-Error "An error occurred during Python setup with uv: $_"
+    exit 1
 }
 
 # --- Step 4: Setup CMake ---
