@@ -36,3 +36,126 @@ run_image_processing_test
 ### 4. トラブルシューティング
 - **ビルドの失敗:** ビルドに失敗した場合、`MATLAB_Image_Processing` ディレクトリに `build_log.txt` というログファイルが生成されます。このファイルを開き、エラーメッセージの詳細を確認してください。
 - **Python環境の警告:** `startup.m` やテストスクリプトの実行時に、「MATLAB could not validate the local Python environment」のような警告が表示されることがあります。`build.bat` の実行が成功していれば、通常この警告は無視して問題ありません。MEXファイルの機能はPython環境に依存しません。
+
+## 主要なクラスと使い方
+
+このライブラリは、機能ごとにクラスベースで構成されています。以下に主要なクラスの概要と使用例を示します。
+
+### 1. `ZMQ.ZeroMQImageReceiver` - 画像受信
+
+ZeroMQのSUBソケットを介して、外部から送信される画像データを受信するためのクラスです。
+
+-   **処理概要:** 指定されたアドレスに接続し、特定のトピックを購読します。`receive` メソッドを呼び出すと、受信した画像データをMATLABの行列として返します。
+-   **コンストラクタ:** `receiver = ZMQ.ZeroMQImageReceiver(address, topic, Name, Value, ...)`
+    -   `address` (char): 接続先のZeroMQアドレス (例: `'tcp://localhost:5555'`)
+    -   `topic` (char): 購読するトピック名 (例: `'Camera01'`)
+    -   オプション: `'ImageHeight'`, `'ImageWidth'`, `'Channels'`, `'Timeout'` など
+-   **主要メソッド:** `imageData = receiver.receive()`
+    -   **出力** `imageData` (uint8行列): 受信した画像データ (`高さ x 幅 x チャンネル数`)。データがない場合は空行列 `[]`。
+
+**使用例:**
+```matlab
+% 'tcp://localhost:5555' から 'Camera01' トピックで画像を受信
+receiver = ZMQ.ZeroMQImageReceiver('tcp://localhost:5555', 'Camera01', 'ImageHeight', 720, 'ImageWidth', 1280);
+
+% 10フレーム受信してみる
+for i = 1:10
+    img = receiver.receive();
+    if ~isempty(img)
+        fprintf('Frame %d: Image received successfully.\n', i);
+        % ... 画像処理 ...
+    else
+        fprintf('Frame %d: No image received.\n', i);
+    end
+    pause(0.1);
+end
+
+% オブジェクトをクリアして接続を閉じる
+clear receiver;
+```
+
+### 2. `ZMQ.ZeroMQControlSender` - 制御信号送信
+
+Simulinkモデル内の制御信号などを、ZeroMQのPUBソケットを介して外部に送信するためのクラスです。
+
+-   **処理概要:** 指定されたアドレスでソケットをバインドし、`sendTransform` メソッドで制御データをJSON形式で送信します。
+-   **コンストラクタ:** `sender = ZMQ.ZeroMQControlSender(address)`
+    -   `address` (char): バインドするZeroMQアドレス (例: `'tcp://*:5556'`)
+-   **主要メソッド:** `sender.sendTransform(target_id, location, rotation)`
+    -   **入力** `target_id` (char): 操作対象のアクターID (例: `'Actor1'`)
+    -   **入力** `location` (1x3 double): 位置ベクトル `[x, y, z]`
+    -   **入力** `rotation` (1x3 double): 回転ベクトル `[roll, pitch, yaw]`
+
+**使用例:**
+```matlab
+% 'tcp://*:5556' で制御信号を送信
+sender = ZMQ.ZeroMQControlSender('tcp://*:5556');
+
+% 'MyCamera' の位置と回転を送信
+location = [100, 50, 25];
+rotation = [0, -15, 90];
+sender.sendTransform('MyCamera', location, rotation);
+
+clear sender;
+```
+
+### 3. `Features.ImageFeatureExtractor` - 画像からの特徴抽出
+
+画像から特徴点を抽出します。内部でPythonのOpenCVライブラリを呼び出して処理を実行します。
+
+-   **処理概要:** 'ORB' または 'Centroid' の2つのモードをサポートします。'ORB'はキーポイント検出、'Centroid'は二値化後の領域の重心計算を行います。
+-   **コンストラクタ:** `extractor = Features.ImageFeatureExtractor(mode, Name, Value, ...)`
+    -   `mode` (char): `'ORB'` または `'Centroid'`
+    -   オプション ('ORB'): `'MaxFeatures'` (最大特徴点数, デフォルト 500)
+    -   オプション ('Centroid'): `'Threshold'` (二値化のしきい値, デフォルト 127)
+-   **主要メソッド:** `[processedImage, features] = extractor.extract(image)`
+    -   **入力** `image` (uint8行列): 入力画像
+    -   **出力** `processedImage` (uint8行列): 抽出された特徴が描画された画像
+    -   **出力** `features` (NxM double): 抽出された特徴データの行列。
+        -   ORBモード: `N x 3` (`[x, y, response]`)
+        -   Centroidモード: `N x 2` (`[x, y]`)
+
+**使用例:**
+```matlab
+% ORBモードで特徴抽出器を作成
+extractor = Features.ImageFeatureExtractor('ORB', 'MaxFeatures', 200);
+
+% 画像を読み込み (imgはuint8行列と仮定)
+img = imread('test_image.png'); 
+
+% 特徴を抽出
+[processedImg, features] = extractor.extract(img);
+
+% 結果を表示
+imshow(processedImg);
+title(sprintf('%d ORB features found', size(features, 1)));
+```
+
+### 4. `Utils.ImageDisplayer` - 画像表示
+
+MATLABのFigureウィンドウに画像を表示するためのユーティリティクラスです。
+
+-   **処理概要:** 指定された解像度でFigureウィンドウを準備し、`update` メソッドで表示内容を更新します。
+-   **コンストラクタ:** `displayer = Utils.ImageDisplayer(height, width, channels, Name, Value, ...)`
+    -   `height` (double): 画像の高さ
+    -   `width` (double): 画像の幅
+    -   `channels` (double): チャンネル数 (1または3)
+    -   オプション: `'Title'` (ウィンドウタイトル)
+-   **主要メソッド:** `displayer.update(imageData)`
+    -   **入力** `imageData` (uint8行列): 表示する画像データ
+
+**使用例:**
+```matlab
+% 720pのRGB画像用のディスプレイを作成
+displayer = Utils.ImageDisplayer(720, 1280, 3, 'Title', 'Live Feed');
+
+% receiverから画像を受信して表示
+for i = 1:100
+    img = receiver.receive();
+    if ~isempty(img)
+        displayer.update(img);
+    end
+    drawnow; % イベントを処理
+end
+
+clear displayer; % ウィンドウを閉じる
