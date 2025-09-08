@@ -21,51 +21,37 @@ ZeroMQは、高性能な非同期メッセージングライブラリです。�
 -   `zeromq_image_lib.slx`: プロジェクトで提供されるS-FunctionブロックをまとめたSimulinkライブラリ
 -   `Image_Processing_Test.slx`: ライブラリの使用方法を示すサンプルモデル
 
-## セットアップ手順
+## セットアップとビルド手順
 
 ### 1. 前提条件
 - MATLAB R2023a 以降
 - Simulink
 - サポートされているC++コンパイラ (MinGW64 または Visual Studio 2019 以降)
-  - MATLABで `mex -setup C++` を実行して設定してください。
+  - MATLABを起動し、コマンドウィンドウで `mex -setup C++` を実行して、使用するコンパイラが正しく設定されていることを確認してください。
 
-### 2. 初期設定（初回のみ）
-このプロジェクトを使用するための環境を自動でセットアップします。
+### 2. ビルドの実行 (初回のみ)
+このプロジェクトのセットアップとビルドは、`build.bat` を実行するだけで完結します。
 
-1.  **PowerShellを管理者として実行**
-    - Windowsのスタートメニューで「PowerShell」と検索し、「Windows PowerShell」を右クリックして **「管理者として実行」** を選択します。
+1.  **`build.bat` を実行**
+    - `Simulink_Image_Processing` ディレクトリにある `build.bat` ファイルをダブルクリックして実行します。
+    - ユーザーアカウント制御(UAC)のプロンプトが表示されたら「はい」をクリックして、管理者権限を許可してください。
 
-2.  **セットアップスクリプトの実行**
-    - PowerShellで、この `Simulink_Image_Processing` ディレクトリに移動します。
-      ```powershell
-      cd "D:\path\to\your\project\Simulink_Image_Processing" 
-      ```
-      (※ `D:\path\to\your\project` の部分は実際のパスに置き換えてください)
-    - 次に、以下のコマンドを実行してセットアップスクリプトを開始します。
-      ```powershell
-      .\setup_environment.ps1
-      ```
-    - このスクリプトは以下の処理を自動的に行います。
-        - Pythonの実行環境のセットアップ
-        - 必要なPythonライブラリ (pyzmq, numpy, opencv-python) のインストール
-        - ZeroMQライブラリの接続テスト
-        - MATLABのPython環境設定
+2.  **自動処理の待機**
+    - スクリプトが、Git、CMake、Python環境など、ビルドに必要な依存関係をすべて自動でセットアップします。
+    - 最終的にZeroMQライブラリのビルドとS-Functionのコンパイルが行われます。
+    - 初回実行時は完了までに数分かかる場合があります。完了すると、コンソールに「Press any key to continue...」と表示されます。
+    - ビルドに失敗した場合は、`build_log.txt` を確認してください。
 
-### 3. C++ S-Functionのビルド
-この手順は、初回セットアップ後、またはC++ソースコード (`c_src/` 内のファイル) に変更があった場合に実行してください。
+### 3. Python環境について
+`build.bat` は、S-Functionのビルドプロセスに加え、一部のブロック（Image Feature Extractionなど）で使用されるPython環境のセットアップも行います。
 
-1.  **MATLABを起動**
-    - この `Simulink_Image_Processing` ディレクトリをカレントディレクトリとしてMATLABを起動します。
-2.  **ビルドスクリプトの実行**
-    - MATLABのコマンドウィンドウで以下のコマンドを実行します。
-      ```matlab
-      build_sfunctions
-      ```
-    - これにより、C++で書かれたS-Functionがコンパイルされ、Simulinkで使用できるようになります。
+- **管理方法:** Python環境は、高速なパッケージインストーラ `uv` を用いて管理されます。必要なライブラリは `pyproject.toml` ファイルの `[project.dependencies]` セクションで定義されています。
+- **ライブラリの更新:** 依存ライブラリを変更・追加・削除したい場合は、`pyproject.toml` を直接編集してください。編集後、再度 `build.bat` を実行すると、`.venv` 仮想環境が `pyproject.toml` の内容と厳密に同期されます。コマンドラインから手動で更新する場合は `uv sync` を実行します。
 
 ### 4. Simulinkライブラリの使用
-セットアップ完了後、MATLABを再起動してください。
+セットアップ完了後、MATLABを起動し、`startup.m` を実行してください。
 Simulinkライブラリブラウザを開くと、**"ZeroMQ Image Lib"** という名前のライブラリが表示されます。ここからブロックをモデルにドラッグ＆ドロップして使用できます。
+`Image_Processing_Test.slx` がサンプルモデルとして含まれています。
 
 ## ライブラリ (`zeromq_image_lib.slx`) の内容
 

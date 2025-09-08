@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+python_image_processing.egg-info/PKG-INFO
+python_image_processing.egg-info/SOURCES.txt
+python_image_processing.egg-info/dependency_links.txt
+python_image_processing.egg-info/requires.txt
+python_image_processing.egg-info/top_level.txt

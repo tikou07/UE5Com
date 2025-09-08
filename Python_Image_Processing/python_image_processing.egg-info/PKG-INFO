@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: python-image-processing
+Version: 0.1.0
+Summary: A Python library to receive, process, and display image data from Unreal Engine 5 via ZeroMQ.
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+Requires-Dist: pyzmq

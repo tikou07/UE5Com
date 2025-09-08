@@ -109,14 +109,17 @@ try {
         Write-Host "Python virtual environment already exists at $venvDir"
     }
 
-    # 3. Install requirements
-    $requirementsFile = Join-Path $projectRoot 'requirements.txt'
-    if (Test-Path $requirementsFile) {
-        Write-Host "Installing Python requirements from $requirementsFile..."
-        & $uvExe pip install -r "$requirementsFile" --python "$pyExe"
-        Write-Host "Python requirements installed successfully." -ForegroundColor Green
+    # 3. Sync dependencies from pyproject.toml
+    $pyprojectFile = Join-Path $projectRoot 'pyproject.toml'
+    if (Test-Path $pyprojectFile) {
+        Write-Host "Syncing Python environment with $pyprojectFile..."
+        # Change directory to the project root so uv can find pyproject.toml
+        Push-Location $projectRoot
+        & $uvExe sync --python "$pyExe"
+        Pop-Location
+        Write-Host "Python environment synced successfully." -ForegroundColor Green
     } else {
-        Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
+        Write-Host "Warning: No pyproject.toml found. Skipping Python dependency installation." -ForegroundColor Yellow
     }
 
 } catch {

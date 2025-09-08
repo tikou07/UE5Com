@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: matlab-image-processing
+Version: 0.1.0
+Summary: Python environment for MATLAB Image Processing project.
+Requires-Python: >=3.11
+Requires-Dist: numpy==2.2.6
+Requires-Dist: opencv-python==4.12.0.88
+Requires-Dist: pillow==11.3.0
+Requires-Dist: pyzmq==27.0.1

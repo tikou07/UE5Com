@@ -1,0 +1,13 @@
+[project]
+name = "python-image-processing"
+version = "0.1.0"
+description = "A Python library to receive, process, and display image data from Unreal Engine 5 via ZeroMQ."
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "pyzmq",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

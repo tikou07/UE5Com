@@ -84,13 +84,16 @@ if (-not (Test-Path $pyExe)) {
 } else {
     Write-Host "Python virtual environment already exists."
 }
-$requirementsFile = Join-Path $projectRoot 'requirements.txt'
-if (Test-Path $requirementsFile) {
-    Write-Host "Installing Python requirements..."
-    & $uvExe pip install -r "$requirementsFile" --python "$pyExe"
-    Write-Host "Python requirements installed successfully." -ForegroundColor Green
+$pyprojectFile = Join-Path $projectRoot 'pyproject.toml'
+if (Test-Path $pyprojectFile) {
+    Write-Host "Syncing Python environment with pyproject.toml..."
+    # Change directory to the project root so uv can find pyproject.toml
+    Push-Location $projectRoot
+    & $uvExe sync --python "$pyExe"
+    Pop-Location
+    Write-Host "Python environment synced successfully." -ForegroundColor Green
 } else {
-    Write-Host "Warning: No requirements.txt found. Skipping Python dependency installation." -ForegroundColor Yellow
+    Write-Host "Warning: No pyproject.toml found. Skipping Python dependency installation." -ForegroundColor Yellow
 }
 
 # --- Step 4: Setup CMake ---

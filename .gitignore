@@ -38,3 +38,9 @@ UE5Com/Plugins/VisualStudioTools/
 !/MATLAB_Image_Processing/ThirdParty/**/*.lib
 !/MATLAB_Image_Processing/ThirdParty/**/*.dll
 !/MATLAB_Image_Processing/ThirdParty/**/*.a
+
+# Keep the packaged plugin files for distribution
+!/ZeroMQCommunication/Package/
+!/ZeroMQCommunication/Package/**/Binaries/
+!/ZeroMQCommunication/Package/**/*.dll
+!/ZeroMQCommunication/Package/**/*.lib
