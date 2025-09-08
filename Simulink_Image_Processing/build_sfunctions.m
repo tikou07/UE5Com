@@ -1,42 +1,139 @@
-% Build script for ZeroMQ C-MEX S-Functions
+function build_sfunctions()
+% build_sfunctions - Compiles the ZMQ S-Function MEX files from source.
+% This script uses CMake to build the ZeroMQ library from the included
+% submodule, ensuring compatibility with the MATLAB-selected C++ compiler.
 
-% Common settings
-mex_flags = {'-g', '-output'}; % Use '-g' for debug symbols
-third_party_dir = fullfile(pwd, 'ThirdParty');
-include_dir = fullfile(third_party_dir, 'include');
-lib_dir = fullfile(third_party_dir, 'lib', 'Win64');
-zmq_lib = fullfile(lib_dir, 'libzmq-v143-mt-s-4_3_5.lib');
-ws2_lib = 'ws2_32.lib';
-iphlpapi_lib = 'iphlpapi.lib';
+% --- Clear any loaded MEX files ---
+clear mex;
 
-% Compiler flags for MSVC
-cpp_flags = 'CXXFLAGS="$CXXFLAGS /std:c++17"';
+% --- Configuration ---
+PROJECT_ROOT = fileparts(mfilename('fullpath'));
+ZMQ_SOURCE_DIR = fullfile(PROJECT_ROOT, 'ThirdParty', 'zeromq');
+CMAKE_INSTALL_DIR = fullfile(PROJECT_ROOT, 'ThirdParty', 'cmake');
+ZMQ_BUILD_DIR = fullfile(ZMQ_SOURCE_DIR, 'build');
+ZMQ_INSTALL_DIR = fullfile(ZMQ_BUILD_DIR, 'install'); % Install into a subdir of the build dir
 
-% Include paths
-include_path = ['-I"' include_dir '"'];
+% --- Build Command ---
+fprintf('Building S-Function MEX files...\n');
 
-% Library paths and libraries to link
-lib_path = ['-L"' lib_dir '"'];
-libs = {zmq_lib, ws2_lib, iphlpapi_lib};
-
-disp('--- Building C-MEX S-Functions ---');
-
-% --- Build sfun_zeromq_image ---
-disp('Building sfun_zeromq_image...');
-if exist('sfun_zeromq_image', 'file')
-    clear sfun_zeromq_image;
-end
-if exist('sfun_zeromq_image.mexw64', 'file')
-    delete('sfun_zeromq_image.mexw64');
-end
-try
-    mex(cpp_flags, mex_flags{:}, 'sfun_zeromq_image', fullfile('c_src', 'sfun_zeromq_image.cpp'), ...
-        include_path, lib_path, libs{:});
-    disp('sfun_zeromq_image build successful.');
-    copyfile(fullfile(third_party_dir, 'bin', 'Win64', 'libzmq-mt-4_3_5.dll'), pwd);
-catch e
-    disp('Error building sfun_zeromq_image:');
-    disp(e.message);
+% 1. Find CMake executable
+cmake_exe = find_cmake(CMAKE_INSTALL_DIR);
+if isempty(cmake_exe)
+    error('CMake not found. Please run build.ps1 from an Administrator PowerShell prompt to ensure all dependencies are set up correctly.');
 end
 
-disp('--- Build process finished ---');
+% 2. Build ZeroMQ library using CMake
+fprintf('--- Building ZeroMQ library from source ---\n');
+if exist(ZMQ_BUILD_DIR, 'dir')
+    fprintf('Cleaning previous build directory...\n');
+    rmdir(ZMQ_BUILD_DIR, 's');
+end
+mkdir(ZMQ_BUILD_DIR);
+
+compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');
+if isempty(compiler_cfg)
+    error('No C++ compiler is selected in MATLAB. Please run "mex -setup C++".');
+end
+
+% Configure CMake command
+cmake_configure_cmd = sprintf('"%s" -S "%s" -B "%s" -A x64 -DCMAKE_INSTALL_PREFIX="%s" -DBUILD_SHARED=ON -DBUILD_STATIC=OFF -DBUILD_TESTS=OFF -DWITH_LIBSODIUM=OFF', ...
+    cmake_exe, ZMQ_SOURCE_DIR, ZMQ_BUILD_DIR, ZMQ_INSTALL_DIR);
+
+% Build command
+cmake_build_cmd = sprintf('"%s" --build "%s" --config Release --target install', cmake_exe, ZMQ_BUILD_DIR);
+
+% Execute CMake commands
+fprintf('Configuring ZeroMQ build...\n');
+[status, cmdout] = system(cmake_configure_cmd);
+if status ~= 0, disp(cmdout); error('CMake configuration failed.'); end
+
+fprintf('Building and installing ZeroMQ...\n');
+[status, cmdout] = system(cmake_build_cmd);
+if status ~= 0, disp(cmdout); error('ZeroMQ build failed.'); end
+fprintf('--- ZeroMQ library built successfully ---\n');
+
+
+% 3. Build the S-Function MEX files
+fprintf('--- Building S-Function MEX files ---\n');
+S_FUNCTION_SOURCES = { ...
+    'sfun_zeromq_image.cpp', ...
+    'sfun_zeromq_control.cpp' ...
+};
+
+ZMQ_INC_DIR_BUILT = fullfile(ZMQ_INSTALL_DIR, 'include');
+ZMQ_LIB_DIR_BUILT = fullfile(ZMQ_INSTALL_DIR, 'lib');
+MEX_COMMON_INC_DIR = fullfile(PROJECT_ROOT, 'ThirdParty', 'include');
+
+lib_file = dir(fullfile(ZMQ_LIB_DIR_BUILT, '*zmq*.lib'));
+if isempty(lib_file), error('Could not find built ZeroMQ library file.'); end
+[~, lib_name, ~] = fileparts(lib_file(1).name);
+
+for i = 1:length(S_FUNCTION_SOURCES)
+    src_filename = S_FUNCTION_SOURCES{i};
+    [~, output_name, ~] = fileparts(src_filename);
+    
+    src_file_path = fullfile(PROJECT_ROOT, 'c_src', src_filename);
+    output_file_path = fullfile(PROJECT_ROOT, [output_name, '.', mexext]);
+    
+    fprintf('\n--- Building %s ---\n', src_filename);
+    
+    if exist(output_file_path, 'file')
+        fprintf('Deleting existing MEX file: %s\n', output_file_path);
+        delete(output_file_path);
+    end
+    
+    mex_command = { ...
+        '-v', ...
+        ['-I"' ZMQ_INC_DIR_BUILT '"'], ...
+        ['-I"' MEX_COMMON_INC_DIR '"'], ...
+        ['-L"' ZMQ_LIB_DIR_BUILT '"'], ...
+        ['-l' lib_name], ...
+        'ws2_32.lib', ...
+        'iphlpapi.lib', ...
+        'COMPFLAGS="$COMPFLAGS /std:c++17 /MT"', ...
+        ['"' src_file_path '"'], ...
+        '-output', ['"' output_file_path '"'] ...
+    };
+    
+    try
+        mex(mex_command{:});
+        fprintf('Successfully built %s.\n', output_file_path);
+    catch ME
+        fprintf('Error building %s:\n', src_file_path);
+        rethrow(ME);
+    end
+end
+
+fprintf('\nAll S-Functions built successfully.\n');
+
+% 4. Copy ZeroMQ DLL to the project root directory
+fprintf('--- Copying ZeroMQ DLL to project root ---\n');
+% The DLL is typically in the 'bin\Release' directory of the build output
+ZMQ_DLL_DIR = fullfile(ZMQ_BUILD_DIR, 'bin', 'Release');
+dll_file = dir(fullfile(ZMQ_DLL_DIR, '*zmq*.dll'));
+if isempty(dll_file)
+    warning('Could not find built ZeroMQ DLL file. Runtime errors may occur.');
+else
+    source_dll = fullfile(dll_file(1).folder, dll_file(1).name);
+    destination_dll = fullfile(PROJECT_ROOT, dll_file(1).name);
+    copyfile(source_dll, destination_dll, 'f');
+    fprintf('Successfully copied %s to project root.\n', dll_file(1).name);
+end
+
+end
+
+function cmake_path = find_cmake(local_cmake_dir)
+    local_cmake_exe = fullfile(local_cmake_dir, 'bin', 'cmake.exe');
+    if exist(local_cmake_exe, 'file')
+        cmake_path = local_cmake_exe;
+        return;
+    end
+    
+    [status, result] = system('where cmake');
+    if status == 0
+        lines = strsplit(strtrim(result), '\n');
+        cmake_path = lines{1};
+    else
+        cmake_path = '';
+    end
+end

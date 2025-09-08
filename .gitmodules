@@ -1,3 +1,6 @@
 [submodule "MATLAB_Image_Processing/ThirdParty/zeromq"]
 	path = MATLAB_Image_Processing/ThirdParty/zeromq
 	url = https://github.com/zeromq/libzmq.git
+[submodule "Simulink_Image_Processing/ThirdParty/zeromq"]
+	path = Simulink_Image_Processing/ThirdParty/zeromq
+	url = https://github.com/zeromq/libzmq.git

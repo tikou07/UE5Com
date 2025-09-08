@@ -17,17 +17,4 @@ addpath(fullfile(project_root, 'help'));
 % Add ThirdParty include folder if needed for headers, etc.
 addpath(fullfile(project_root, 'ThirdParty', 'include'));
 
-% Add ThirdParty bin folder for DLLs
-addpath(fullfile(project_root, 'ThirdParty', 'bin', 'Win64'));
-
 fprintf('Paths added successfully.\n');
-
-% Build S-Functions
-fprintf('Building S-Functions...\n');
-try
-    build_sfunctions;
-    fprintf('S-Functions built successfully.\n');
-catch e
-    fprintf('Error building S-Functions:\n');
-    fprintf('%s\n', e.message);
-end
