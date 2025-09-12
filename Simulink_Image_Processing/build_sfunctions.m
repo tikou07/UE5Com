@@ -7,7 +7,21 @@ function build_sfunctions()
 clear mex;
 
 % --- Configuration ---
-PROJECT_ROOT = fileparts(mfilename('fullpath'));
+% Use a more robust method to find the project root
+if exist('build_sfunctions.m', 'file') == 2
+    PROJECT_ROOT = fileparts(which('build_sfunctions.m'));
+else
+    PROJECT_ROOT = pwd; % Fallback to current directory
+end
+cd(PROJECT_ROOT); % Ensure we are in the correct directory
+
+fprintf('--- Build Environment ---\n');
+fprintf('Project Root: %s\n', PROJECT_ROOT);
+fprintf('Current Directory: %s\n', pwd);
+fprintf('MATLAB Version: %s\n', version);
+fprintf('User: %s\n', getenv('USERNAME'));
+fprintf('-------------------------\n\n');
+
 ZMQ_SOURCE_DIR = fullfile(PROJECT_ROOT, 'ThirdParty', 'zeromq');
 CMAKE_INSTALL_DIR = fullfile(PROJECT_ROOT, 'ThirdParty', 'cmake');
 ZMQ_BUILD_DIR = fullfile(ZMQ_SOURCE_DIR, 'build');
@@ -33,8 +47,15 @@ mkdir(ZMQ_BUILD_DIR);
 compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');
 if isempty(compiler_cfg)
     fprintf('No C++ compiler selected. Attempting to auto-select one...\n');
-    % Get all available C++ compilers (use argument-less call for compatibility)
-    all_compilers = mex.getCompilerConfigurations('C++');
+    % Get all available C++ compilers
+    try
+        all_compilers = mex.getCompilerConfigurations('C++');
+    catch
+        all_compilers = mex.getCompilerConfigurations();
+        is_cpp = arrayfun(@(x) strcmp(x.Language, 'C++'), all_compilers);
+        all_compilers = all_compilers(is_cpp);
+    end
+    
     if ~isempty(all_compilers)
         selected_compiler = all_compilers(1);
         fprintf('Found compiler: %s. Selecting it now.\n', selected_compiler.Name);
@@ -52,7 +73,7 @@ if isempty(compiler_cfg)
             error('No C++ compiler is selected in MATLAB. Please run "mex -setup C++" manually.');
         end
     else
-        error('No C++ compilers found. Please install a supported compiler (e.g., MinGW or Visual Studio).');
+        error('No C++ compilers found. Please install a supported compiler and run "mex -setup C++" in MATLAB.');
     end
 end
 
