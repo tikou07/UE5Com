@@ -96,47 +96,64 @@ if (-not (Test-Path $uvExe)) {
     Write-Host "uv found at $uvExe"
 }
 
-# Create virtual environment using MATLAB-compatible Python
+# Create virtual environment using a standard Python interpreter
 $venvDir = Join-Path $projectRoot ".venv"
 $pyExe = Join-Path $venvDir "Scripts\python.exe"
-if (-not (Test-Path $pyExe)) {
-    Write-Host "Python virtual environment not found. Creating one with MATLAB-compatible Python..."
-    try {
-        & $uvExe venv --python "$pythonExeForVenv" "$venvDir" 2>$null
-    } catch {
-        Write-Warning "uv venv command failed but continuing. This is expected with the embedded Python package."
-    }
-    Write-Host "Virtual environment created using MATLAB-compatible Python."
-} else {
-    Write-Host "Python virtual environment already exists. Checking if it uses the correct Python..."
-    $currentBasePython = & $pyExe -c "import sys; print(sys._base_executable)" 2>$null
-    if ($currentBasePython -ne $pythonExeForVenv) {
-        Write-Host "Virtual environment uses different Python. Recreating with MATLAB-compatible Python..."
+
+Write-Host "Creating Python virtual environment with a standard Python 3.11..."
+# uv will find a suitable Python 3.11 from the system or download one
+try {
+    # Recreate venv every time to ensure it's clean
+    if (Test-Path $venvDir) {
+        Write-Host "Removing existing virtual environment..."
         Remove-Item -Path $venvDir -Recurse -Force
-        try {
-            & $uvExe venv --python "$pythonExeForVenv" "$venvDir" 2>$null
-        } catch {
-            Write-Warning "uv venv command failed but continuing. This is expected with the embedded Python package."
-        }
-        Write-Host "Virtual environment recreated using MATLAB-compatible Python."
-    } else {
-        Write-Host "Virtual environment already uses the correct MATLAB-compatible Python."
     }
+    & $uvExe venv --python "3.11" "$venvDir"
+    Write-Host "Virtual environment created successfully."
+} catch {
+    throw "Failed to create virtual environment with uv. Please ensure a standard Python 3.11 is available or can be downloaded by uv."
 }
+
+# Verify venv creation
+if (-not (Test-Path $pyExe)) {
+    throw "Virtual environment creation failed: python.exe not found at $pyExe"
+}
+
+# Sync dependencies
 $pyprojectFile = Join-Path $projectRoot 'pyproject.toml'
 if (Test-Path $pyprojectFile) {
     Write-Host "Syncing Python environment with pyproject.toml..."
-    # Change directory to the project root so uv can find pyproject.toml
     Push-Location $projectRoot
     try {
-        & $uvExe sync --python "$pyExe" 2>$null
+        & $uvExe sync --python "$pyExe"
     } catch {
-        Write-Warning "uv sync command failed but continuing. This is expected with the embedded Python package."
+        throw "Failed to sync Python dependencies with uv."
     }
     Pop-Location
     Write-Host "Python environment synced successfully." -ForegroundColor Green
 } else {
     Write-Host "Warning: No pyproject.toml found. Skipping Python dependency installation." -ForegroundColor Yellow
+}
+
+# Replace the Python executable in the venv with the MATLAB-compatible embeddable one
+Write-Host "Replacing venv Python with MATLAB-compatible embeddable version..."
+$venvPythonExe = Join-Path $venvDir "Scripts\python.exe"
+$embedPythonExe = Join-Path $projectRoot "ThirdParty\python\python.exe"
+$embedPythonDir = Join-Path $projectRoot "ThirdParty\python"
+
+if (Test-Path $embedPythonExe) {
+    Copy-Item -Path $embedPythonExe -Destination $venvPythonExe -Force
+    
+    # Also copy pyd files and the zip file to ensure all modules are available
+    $embedFiles = Get-ChildItem -Path $embedPythonDir -Include "*.pyd", "*.zip", "*._pth"
+    foreach ($file in $embedFiles) {
+        $destFile = Join-Path (Join-Path $venvDir "Scripts") $file.Name
+        Copy-Item -Path $file.FullName -Destination $destFile -Force
+    }
+    
+    Write-Host "Successfully replaced Python executable and modules in virtual environment." -ForegroundColor Green
+} else {
+    Write-Warning "Could not find embeddable Python. The virtual environment might not be compatible with MATLAB."
 }
 
 # --- Step 4: Setup CMake ---

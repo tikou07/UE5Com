@@ -11,9 +11,13 @@ echo --- Simulink Image Processing Dependency Setup Script ---
 
 :: 1. Check if dependencies are already set up
 if exist "%CMAKE_CHECK_FILE%" (
-    echo Dependencies already set up. Exiting.
-    pause
-    exit /b 0
+    if exist "%PROJECT_ROOT%.venv\Scripts\python.exe" (
+        echo Dependencies already set up. Exiting.
+        pause
+        exit /b 0
+    ) else (
+        echo CMake found, but Python virtual environment is missing. Proceeding with setup...
+    )
 )
 
 :: 2. If not, run the setup with Administrator privileges
@@ -38,12 +42,19 @@ if '%errorlevel%' NEQ '0' (
     if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
     pushd "%~dp0"
     echo --- Running Dependency Setup (Admin Privileges) ---
-    PowerShell -ExecutionPolicy Bypass -File "%PS_SCRIPT%" -SetupOnly
+    PowerShell -ExecutionPolicy Bypass -File "%PS_SCRIPT%"
     if %errorlevel% neq 0 (
         echo ERROR: Dependency setup failed.
         pause
         exit /b %errorlevel%
     )
+    
+    if not exist "%PROJECT_ROOT%.venv\Scripts\python.exe" (
+        echo ERROR: Python virtual environment was not created successfully.
+        pause
+        exit /b 1
+    )
+    
     echo --- Dependency Setup Finished ---
     popd
     echo.
