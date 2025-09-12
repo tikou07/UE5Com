@@ -59,6 +59,26 @@ if (-not (Test-Path (Join-Path $zmqDir "CMakeLists.txt"))) {
 
 # --- Step 3: Setup Python dependencies using uv ---
 Write-Host "`n--- Step 3: Setting up Python dependencies using uv ---"
+
+# Setup MATLAB-compatible Python first
+$pythonInstallDir = Join-Path $projectRoot "ThirdParty\python"
+$pythonExeForVenv = Join-Path $pythonInstallDir "python.exe"
+if (-not (Test-Path $pythonExeForVenv)) {
+    Write-Host "MATLAB-compatible Python not found. Downloading Python 3.11 embeddable package..."
+    New-Item -Path $pythonInstallDir -ItemType Directory -Force | Out-Null
+    $pythonZipUrl = "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
+    $pythonZipPath = Join-Path $env:TEMP "python-embed.zip"
+    Invoke-WebRequest -Uri $pythonZipUrl -OutFile $pythonZipPath -UseBasicParsing
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($pythonZipPath, $pythonInstallDir)
+    Remove-Item $pythonZipPath -Force
+    if (-not (Test-Path $pythonExeForVenv)) { throw "Python embeddable package installation failed." }
+    Write-Host "MATLAB-compatible Python installed successfully at $pythonInstallDir"
+} else {
+    Write-Host "MATLAB-compatible Python found at $pythonExeForVenv"
+}
+
+# Setup uv
 $uvInstallDir = Join-Path $projectRoot "ThirdParty\uv"
 $uvExe = Join-Path $uvInstallDir "uv.exe"
 if (-not (Test-Path $uvExe)) {
@@ -75,14 +95,25 @@ if (-not (Test-Path $uvExe)) {
 } else {
     Write-Host "uv found at $uvExe"
 }
+
+# Create virtual environment using MATLAB-compatible Python
 $venvDir = Join-Path $projectRoot ".venv"
 $pyExe = Join-Path $venvDir "Scripts\python.exe"
 if (-not (Test-Path $pyExe)) {
-    Write-Host "Python virtual environment not found. Creating one with uv..."
-    & $uvExe venv -p 3.11 "$venvDir"
-    Write-Host "Virtual environment created."
+    Write-Host "Python virtual environment not found. Creating one with MATLAB-compatible Python..."
+    & $uvExe venv --python "$pythonExeForVenv" "$venvDir"
+    Write-Host "Virtual environment created using MATLAB-compatible Python."
 } else {
-    Write-Host "Python virtual environment already exists."
+    Write-Host "Python virtual environment already exists. Checking if it uses the correct Python..."
+    $currentBasePython = & $pyExe -c "import sys; print(sys._base_executable)" 2>$null
+    if ($currentBasePython -ne $pythonExeForVenv) {
+        Write-Host "Virtual environment uses different Python. Recreating with MATLAB-compatible Python..."
+        Remove-Item -Path $venvDir -Recurse -Force
+        & $uvExe venv --python "$pythonExeForVenv" "$venvDir"
+        Write-Host "Virtual environment recreated using MATLAB-compatible Python."
+    } else {
+        Write-Host "Virtual environment already uses the correct MATLAB-compatible Python."
+    }
 }
 $pyprojectFile = Join-Path $projectRoot 'pyproject.toml'
 if (Test-Path $pyprojectFile) {
