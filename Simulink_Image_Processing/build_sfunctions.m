@@ -33,11 +33,13 @@ mkdir(ZMQ_BUILD_DIR);
 compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');
 if isempty(compiler_cfg)
     fprintf('No C++ compiler selected. Attempting to auto-select one...\n');
-    all_compilers = mex.getCompilerConfigurations('C++', 'All');
+    % Get all available C++ compilers (use argument-less call for compatibility)
+    all_compilers = mex.getCompilerConfigurations('C++');
     if ~isempty(all_compilers)
         selected_compiler = all_compilers(1);
         fprintf('Found compiler: %s. Selecting it now.\n', selected_compiler.Name);
         try
+            % Select the compiler using its MexOpt file path
             mex('-setup', 'C++', selected_compiler.MexOpt);
             % Re-fetch the selected compiler configuration
             compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');
