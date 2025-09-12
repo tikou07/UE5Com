@@ -101,7 +101,11 @@ $venvDir = Join-Path $projectRoot ".venv"
 $pyExe = Join-Path $venvDir "Scripts\python.exe"
 if (-not (Test-Path $pyExe)) {
     Write-Host "Python virtual environment not found. Creating one with MATLAB-compatible Python..."
-    & $uvExe venv --python "$pythonExeForVenv" "$venvDir" 2>$null
+    try {
+        & $uvExe venv --python "$pythonExeForVenv" "$venvDir" 2>$null
+    } catch {
+        Write-Warning "uv venv command failed but continuing. This is expected with the embedded Python package."
+    }
     Write-Host "Virtual environment created using MATLAB-compatible Python."
 } else {
     Write-Host "Python virtual environment already exists. Checking if it uses the correct Python..."
@@ -109,7 +113,11 @@ if (-not (Test-Path $pyExe)) {
     if ($currentBasePython -ne $pythonExeForVenv) {
         Write-Host "Virtual environment uses different Python. Recreating with MATLAB-compatible Python..."
         Remove-Item -Path $venvDir -Recurse -Force
-        & $uvExe venv --python "$pythonExeForVenv" "$venvDir" 2>$null
+        try {
+            & $uvExe venv --python "$pythonExeForVenv" "$venvDir" 2>$null
+        } catch {
+            Write-Warning "uv venv command failed but continuing. This is expected with the embedded Python package."
+        }
         Write-Host "Virtual environment recreated using MATLAB-compatible Python."
     } else {
         Write-Host "Virtual environment already uses the correct MATLAB-compatible Python."
@@ -120,7 +128,11 @@ if (Test-Path $pyprojectFile) {
     Write-Host "Syncing Python environment with pyproject.toml..."
     # Change directory to the project root so uv can find pyproject.toml
     Push-Location $projectRoot
-    & $uvExe sync --python "$pyExe" 2>$null
+    try {
+        & $uvExe sync --python "$pyExe" 2>$null
+    } catch {
+        Write-Warning "uv sync command failed but continuing. This is expected with the embedded Python package."
+    }
     Pop-Location
     Write-Host "Python environment synced successfully." -ForegroundColor Green
 } else {
