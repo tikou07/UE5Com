@@ -2,9 +2,11 @@ function build_mex_files()
 % build_mex_files - Compiles the ZMQ handler MEX file from source.
 % This script uses CMake to build the ZeroMQ library from the included
 % submodule, ensuring compatibility with the MATLAB-selected C++ compiler.
+% It includes error handling to be called directly.
 
-% --- Clear any loaded MEX files ---
-clear mex;
+try
+    % --- Clear any loaded MEX files ---
+    clear mex;
 
 % --- Configuration ---
 PROJECT_ROOT = fileparts(mfilename('fullpath'));
@@ -147,6 +149,18 @@ else
     destination_dll = fullfile(PROJECT_ROOT, 'mex', dll_file(1).name);
     copyfile(source_dll, destination_dll);
     fprintf('Successfully copied %s to mex directory.\n', dll_file(1).name);
+end
+
+catch e
+    fprintf(2, '%s\n', e.getReport('extended'));
+    if ~isdeployed
+        exit(1);
+    end
+    rethrow(e);
+end
+
+if ~isdeployed
+    exit(0);
 end
 
 end
