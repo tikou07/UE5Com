@@ -4,16 +4,16 @@ setlocal
 :: --- Configuration ---
 set "PROJECT_ROOT=%~dp0"
 set "CMAKE_CHECK_FILE=%PROJECT_ROOT%ThirdParty\cmake\bin\cmake.exe"
-set "PS_SCRIPT=%PROJECT_ROOT%build.ps1"
-set "MATLAB_SCRIPT=build_sfunctions"
+set "PS_SCRIPT=%PROJECT_ROOT%setup.ps1"
 
 :: --- Main Logic ---
-echo --- Simulink Image Processing Build Script ---
+echo --- Simulink Image Processing Dependency Setup Script ---
 
 :: 1. Check if dependencies are already set up
 if exist "%CMAKE_CHECK_FILE%" (
-    echo Dependencies found. Proceeding with MATLAB build.
-    goto :build_matlab
+    echo Dependencies already set up. Exiting.
+    pause
+    exit /b 0
 )
 
 :: 2. If not, run the setup with Administrator privileges
@@ -46,19 +46,8 @@ if '%errorlevel%' NEQ '0' (
     )
     echo --- Dependency Setup Finished ---
     popd
-    :: After setup, fall through to the MATLAB build
-
-:build_matlab
     echo.
-    echo --- Running MATLAB Build Script (Standard Privileges) ---
-    matlab -batch "%MATLAB_SCRIPT%"
-    if %errorlevel% neq 0 (
-        echo ERROR: MATLAB build failed. Check log for details.
-        pause
-        exit /b %errorlevel%
-    )
-
-echo.
-echo --- Build Process Finished Successfully ---
-pause
-exit /b 0
+    echo --- Dependency Setup Finished Successfully ---
+    pause
+    exit /b 0
+)

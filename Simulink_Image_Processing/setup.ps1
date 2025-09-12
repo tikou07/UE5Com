@@ -1,12 +1,8 @@
-# build.ps1
-# Main build script for the Simulink_Image_Processing project.
+# setup.ps1
+# Dependency setup script for the Simulink_Image_Processing project.
 # This script handles prerequisite tool setup automatically.
-# The actual library and S-Function build is handled by build_sfunctions.m
+# The S-Function build must be run from MATLAB using build_sfunctions.m
 # Must be run with Administrator privileges.
-
-param (
-    [switch]$SetupOnly
-)
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = $PSScriptRoot
@@ -168,42 +164,4 @@ if (-not $cmakeExe) {
     Write-Host "CMake already exists at $cmakeExe."
 }
 
-# --- Step 5: Run MATLAB build script ---
-if (-not $SetupOnly) {
-    Write-Host "`n--- Step 5: Running MATLAB build script ---"
-    $matlabExe = Find-Executable "matlab.exe"
-    if (-not $matlabExe) {
-        throw "Could not find matlab.exe. Please ensure MATLAB is installed and its 'bin' directory is in the system's PATH."
-    }
-    $logFile = Join-Path $projectRoot "build_log.txt"
-    if (Test-Path $logFile) {
-        try {
-            Remove-Item $logFile -Force -ErrorAction Stop
-        } catch {
-            Write-Warning "Could not delete old log file '$logFile'. It may be locked by another process. This is non-critical; MATLAB will overwrite it."
-        }
-    }
-
-    Write-Host "Starting MATLAB to run build_sfunctions.m... Log: $logFile"
-    $matlabCommand = "try; build_sfunctions; catch e; disp(getReport(e)); exit(1); end; exit(0);"
-
-    try {
-        & $matlabExe -sd "$projectRoot" -r $matlabCommand -wait -nodesktop -nosplash -logfile "$logFile"
-        
-        if ($LASTEXITCODE -ne 0) {
-            Write-Error "MATLAB build process failed. Check the log for details: $logFile"
-            if (Test-Path $logFile) { Get-Content $logFile | Write-Error }
-            exit 1
-        }
-        Write-Host "MATLAB build process finished successfully." -ForegroundColor Green
-    }
-    finally {
-        Write-Host "Ensuring all MATLAB processes are terminated."
-        Get-Process -Name "MATLAB" -ErrorAction SilentlyContinue | Stop-Process -Force
-    }
-
-    Write-Host "`nBuild process completed successfully."
-} else {
-    Write-Host "`n--- Setup Only Mode: Skipping MATLAB build ---"
-    Write-Host "Dependency setup completed successfully."
-}
+Write-Host "`n--- Dependency setup completed successfully ---"
