@@ -1,31 +1,64 @@
 @echo off
-:: build.bat
-:: This batch script serves as a simple wrapper to execute the main build.ps1
-:: PowerShell script with elevated (Administrator) privileges.
+setlocal
 
-:: Check for Administrator privileges
+:: --- Configuration ---
+set "PROJECT_ROOT=%~dp0"
+set "CMAKE_CHECK_FILE=%PROJECT_ROOT%ThirdParty\cmake\bin\cmake.exe"
+set "PS_SCRIPT=%PROJECT_ROOT%build.ps1"
+set "MATLAB_SCRIPT=build_sfunctions"
+
+:: --- Main Logic ---
+echo --- Simulink Image Processing Build Script ---
+
+:: 1. Check if dependencies are already set up
+if exist "%CMAKE_CHECK_FILE%" (
+    echo Dependencies found. Proceeding with MATLAB build.
+    goto :build_matlab
+)
+
+:: 2. If not, run the setup with Administrator privileges
+echo Dependencies not found. Setup process will be initiated.
+echo Requesting administrative privileges to run setup...
+
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
 if '%errorlevel%' NEQ '0' (
-    echo Requesting administrative privileges...
-    goto UACPrompt
+    goto :UACPrompt
 ) else (
-    goto gotAdmin
+    goto :run_setup
 )
 
 :UACPrompt
     echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+    :: Pass a flag to the script to indicate it's being run as admin
+    echo UAC.ShellExecute "cmd.exe", "/C ""%~s0"" :run_setup", "", "runas", 1 >> "%temp%\getadmin.vbs"
     "%temp%\getadmin.vbs"
     exit /B
 
-:gotAdmin
+:run_setup
     if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
     pushd "%~dp0"
+    echo --- Running Dependency Setup (Admin Privileges) ---
+    PowerShell -ExecutionPolicy Bypass -File "%PS_SCRIPT%" -SetupOnly
+    if %errorlevel% neq 0 (
+        echo ERROR: Dependency setup failed.
+        pause
+        exit /b %errorlevel%
+    )
+    echo --- Dependency Setup Finished ---
+    popd
+    :: After setup, fall through to the MATLAB build
 
-:: Execute the PowerShell build script
-echo --- Starting Build Process ---
-PowerShell -ExecutionPolicy Bypass -File ".\build.ps1"
+:build_matlab
+    echo.
+    echo --- Running MATLAB Build Script (Standard Privileges) ---
+    matlab -batch "%MATLAB_SCRIPT%"
+    if %errorlevel% neq 0 (
+        echo ERROR: MATLAB build failed. Check log for details.
+        pause
+        exit /b %errorlevel%
+    )
 
-echo --- Build Process Finished ---
+echo.
+echo --- Build Process Finished Successfully ---
 pause
-popd
+exit /b 0

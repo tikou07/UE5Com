@@ -19,7 +19,7 @@ fprintf('Building S-Function MEX files...\n');
 % 1. Find CMake executable
 cmake_exe = find_cmake(CMAKE_INSTALL_DIR);
 if isempty(cmake_exe)
-    error('CMake not found. Please run build.ps1 from an Administrator PowerShell prompt to ensure all dependencies are set up correctly.');
+    error('CMake not found. Please run build.bat to set up all required dependencies first.');
 end
 
 % 2. Build ZeroMQ library using CMake
