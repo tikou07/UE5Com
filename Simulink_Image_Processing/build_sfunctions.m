@@ -32,7 +32,26 @@ mkdir(ZMQ_BUILD_DIR);
 
 compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');
 if isempty(compiler_cfg)
-    error('No C++ compiler is selected in MATLAB. Please run "mex -setup C++".');
+    fprintf('No C++ compiler selected. Attempting to auto-select one...\n');
+    all_compilers = mex.getCompilerConfigurations('C++', 'All');
+    if ~isempty(all_compilers)
+        selected_compiler = all_compilers(1);
+        fprintf('Found compiler: %s. Selecting it now.\n', selected_compiler.Name);
+        try
+            mex('-setup', 'C++', selected_compiler.MexOpt);
+            % Re-fetch the selected compiler configuration
+            compiler_cfg = mex.getCompilerConfigurations('C++', 'Selected');
+            if isempty(compiler_cfg)
+                error('Failed to auto-select a C++ compiler. Please run "mex -setup C++" manually in MATLAB.');
+            end
+            fprintf('Successfully selected compiler: %s\n', compiler_cfg.Name);
+        catch ME
+            fprintf('Failed to auto-select compiler: %s\n', ME.message);
+            error('No C++ compiler is selected in MATLAB. Please run "mex -setup C++" manually.');
+        end
+    else
+        error('No C++ compilers found. Please install a supported compiler (e.g., MinGW or Visual Studio).');
+    end
 end
 
 % Configure CMake command
