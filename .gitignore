@@ -44,3 +44,10 @@ UE5Com/Plugins/VisualStudioTools/
 !/ZeroMQCommunication/Package/**/Binaries/
 !/ZeroMQCommunication/Package/**/*.dll
 !/ZeroMQCommunication/Package/**/*.lib
+
+# Force include all files under ZeroMQCommunication Source
+!/ZeroMQCommunication/Source/
+!/ZeroMQCommunication/Source/**/*.dll
+!/ZeroMQCommunication/Source/**/*.lib
+!/ZeroMQCommunication/Source/**/*.pdb
+!/ZeroMQCommunication/Source/**/*.obj
