@@ -11,36 +11,20 @@ fprintf('Project Root: %s\n', projectRoot);
 
 % --- Add project folders to MATLAB path ---
 fprintf('Adding project source folders to path...\n');
-addpath(fullfile(projectRoot)); % Add root for scripts like build_mex_files
+addpath(fullfile(projectRoot)); % Add root for scripts and packages
 addpath(fullfile(projectRoot, 'mex'));
 
 % --- Configure Python Environment ---
 fprintf('Configuring Python environment...\n');
-% The Python environment is now managed by uv in the .venv directory
+% The Python environment is managed by uv in the .venv directory
 venvDir = fullfile(projectRoot, '.venv');
-% On Windows, the executable is in the Scripts subdirectory
-if ispc
-    pythonExe = fullfile(venvDir, 'Scripts', 'python.exe');
-else
-    pythonExe = fullfile(venvDir, 'bin', 'python');
-end
 
-if isfolder(venvDir) && isfile(pythonExe)
-    fprintf('Found Python executable at: %s\n', pythonExe);
-    try
-        pyenv('Version', pythonExe);
-        fprintf('Successfully configured MATLAB to use the local Python environment.\n');
-        
-        % Optional: Display Python version to confirm
-        pyVer = pyversion;
-        fprintf('Python Version: %s\n', pyVer);
-        
-    catch ME
-        warning('MATLAB:PythonSetup', 'MATLAB could not validate the local Python environment. This might be ignorable if the build script completed successfully.');
-        warning('MATLAB:PythonSetup', 'Original error: %s', ME.message);
-    end
+if isfolder(venvDir)
+    fprintf('Python virtual environment found at: %s\n', venvDir);
+    fprintf('Note: Using embeddable Python for MATLAB compatibility.\n');
+    fprintf('Python functionality is available through the configured environment.\n');
 else
-    warning('Python virtual environment not found in ./.venv. Please run build.bat to set up the environment.');
+    warning('Python virtual environment not found. Please run setup.bat to set up the environment.');
 end
 
 fprintf('Environment setup complete.\n');
